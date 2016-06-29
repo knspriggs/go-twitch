@@ -2,65 +2,87 @@ package twitch
 
 import (
   "testing"
+
+  "github.com/stretchr/testify/assert"
 )
 
 func TestGetStreamByChannel(t *testing.T) {
-  gst := &GetStreamByChannelRequestType{
+  req := &GetStreamByChannelRequestType{
     Channel: "#knspriggs",
   }
   session, err := NewSession(DefaultURL, APIV3Header)
-  getStreamByChannelResponse, err := session.GetStreamByChannel(gst)
-  if err != nil {
-    t.Logf("got error: %s", err.Error())
-    t.Fail()
-  }
-  if getStreamByChannelResponse.Stream.Viewers != 0 {
-    t.Fail()
+  resp, err := session.GetStreamByChannel(req)
+  assert.Nil(t, err)
+  if assert.NotNil(t, resp) {
+    assert.Equal(t, resp.Stream.Viewers, 0)
   }
 }
 
 func TestGetStreamsWithoutRequestParams(t *testing.T) {
-  gst := &GetStreamsRequestType{}
+  req := &GetStreamsRequestType{}
   session, err := NewSession(DefaultURL, APIV3Header)
-  getStreamsResponse, err := session.GetStream(gst)
-  if err != nil {
-    t.Logf("got error: %s", err.Error())
-    t.Fail()
-  }
-  if len(getStreamsResponse.Streams) == 0 {
-    t.Fail()
+  resp, err := session.GetStream(req)
+  assert.Nil(t, err)
+  if assert.NotNil(t, resp) {
+    assert.NotEqual(t, resp.Streams, 0)
   }
 }
 
 func TestGetStreamsWithPartialRequestParamsAndDefaults(t *testing.T) {
-  gst := &GetStreamsRequestType{
+  req := &GetStreamsRequestType{
     Game: "Counter-Strike: Global Offensive",
   }
   session, err := NewSession(DefaultURL, APIV3Header)
-  getStreamsResponse, err := session.GetStream(gst)
-  if err != nil {
-    t.Logf("got error: %s", err.Error())
-    t.Fail()
-  }
-  if len(getStreamsResponse.Streams) != 25 {
-    t.Fail()
+  resp, err := session.GetStream(req)
+  assert.Nil(t, err)
+  if assert.NotNil(t, resp) {
+    assert.Equal(t, len(resp.Streams), 25)
   }
 }
 
 func TestGetStreamsWithPartialRequestParams(t *testing.T) {
-  gst := &GetStreamsRequestType{
+  req := &GetStreamsRequestType{
     Game: "Counter-Strike: Global Offensive",
     Limit: 10,
     Offset: 1,
     StreamType: "live",
   }
   session, err := NewSession(DefaultURL, APIV3Header)
-  getStreamsResponse, err := session.GetStream(gst)
-  if err != nil {
-    t.Logf("got error: %s", err.Error())
-    t.Fail()
+  resp, err := session.GetStream(req)
+  assert.Nil(t, err)
+  if assert.NotNil(t, resp) {
+    assert.Equal(t, len(resp.Streams), 10)
   }
-  if len(getStreamsResponse.Streams) != 10 {
-    t.Fail()
+}
+
+func TestGetFeaturedStreams(t *testing.T) {
+  req := &GetFeaturedStreamsRequestType{}
+  session, err := NewSession(DefaultURL, APIV3Header)
+  resp, err := session.GetFeaturedStreams(req)
+  assert.Nil(t, err)
+  if assert.NotNil(t, resp) {
+    assert.Equal(t, len(resp.Featured), 25)
+  }
+}
+
+func TestGetStreamsSummaryWithGame(t *testing.T) {
+  req := &GetStreamsSummaryRequestType{
+    Game: "Counter-Strike: Global Offensive",
+  }
+  session, err := NewSession(DefaultURL, APIV3Header)
+  resp, err := session.GetStreamsSummary(req)
+  assert.Nil(t, err)
+  if assert.NotNil(t, resp) {
+    assert.NotEqual(t, resp.Viewers, 0)
+  }
+}
+
+func TestGetStreamsSummaryWithoutGame(t *testing.T) {
+  req := &GetStreamsSummaryRequestType{}
+  session, err := NewSession(DefaultURL, APIV3Header)
+  resp, err := session.GetStreamsSummary(req)
+  assert.Nil(t, err)
+  if assert.NotNil(t, resp) {
+    assert.NotEqual(t, resp.Viewers, 0)
   }
 }

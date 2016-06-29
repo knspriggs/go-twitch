@@ -2,20 +2,19 @@ package twitch
 
 import (
   "testing"
+
+  "github.com/stretchr/testify/assert"
 )
 
 func TestGetTopGames(t *testing.T) {
-  grt := &GamesRequestType{
+  req := &GamesRequestType{
     Limit: 10,
     Offset: 0,
   }
   session, err := NewSession(DefaultURL, APIV3Header)
-  gamesResponse, err := session.GetTopGames(grt)
-  if err != nil {
-    t.Logf("got error: %s", err.Error())
-    t.Fail()
-  }
-  if len(gamesResponse.Top) != 10 {
-    t.Fail()
+  resp, err := session.GetTopGames(req)
+  assert.Nil(t, err)
+  if assert.NotNil(t, resp) {
+    assert.Equal(t, len(resp.Top), 10)
   }
 }
