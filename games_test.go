@@ -12,6 +12,7 @@ func TestGetTopGames(t *testing.T) {
   session, err := NewSession(DefaultURL, APIV3Header)
   gamesResponse, err := session.GetTopGames(grt)
   if err != nil {
+    t.Logf("got error: %s", err.Error())
     t.Fail()
   }
   if len(gamesResponse.Top) != 10 {
