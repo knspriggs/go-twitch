@@ -2,21 +2,11 @@ package twitch
 
 import (
 	"encoding/json"
-	"fmt"
 	"io/ioutil"
 	"net/url"
+
+	"github.com/google/go-querystring/query"
 )
-
-type GamesInputType struct {
-	Limit  int
-	Offset int
-}
-
-type GamesOutputType struct {
-	Links map[string]string `json:"_links"`
-	Total int               `json:"_total"`
-	Top   []Game            `json:"top"`
-}
 
 type Game struct {
 	GameInfo GameInfo `json:"game"`
@@ -33,26 +23,41 @@ type GameInfo struct {
 	GiantBombID int               `json:"giantbomb_id"`
 }
 
-func (session *Session) GetTopGames(gamesInputType *GamesInputType) (*GamesOutputType, error) {
-	u, err := url.Parse(session.URL + "/games/top")
+//
+// Implementation and their respective request/response types
+//
+
+type GetTopGamesInputType struct {
+	Limit  int
+	Offset int
+}
+
+type GetTopGamesOutputType struct {
+	Links map[string]string `json:"_links"`
+	Total int               `json:"_total"`
+	Top   []Game            `json:"top"`
+}
+
+func (session *Session) GetTopGames(gamesInputType *GetTopGamesInputType) (*GetTopGamesOutputType, error) {
+	q, err := query.Values(gamesInputType)
 	if err != nil {
-		return &GamesOutputType{}, err
+		return &GetTopGamesOutputType{}, err
 	}
-	q := u.Query()
-	q.Set("limit", fmt.Sprintf("%d", gamesInputType.Limit))
-	q.Set("offset", fmt.Sprintf("%d", gamesInputType.Offset))
-	u.RawQuery = q.Encode()
+	u, err := url.Parse(session.URL + "/games/top?" + q.Encode())
+	if err != nil {
+		return &GetTopGamesOutputType{}, err
+	}
 
 	res, _ := session.Request("GET", u.String())
 	body, err := ioutil.ReadAll(res.Body)
 	res.Body.Close()
 	if err != nil {
-		return &GamesOutputType{}, err
+		return &GetTopGamesOutputType{}, err
 	}
-	var grt GamesOutputType
+	var grt GetTopGamesOutputType
 	err = json.Unmarshal([]byte(body), &grt)
 	if err != nil {
-		return &GamesOutputType{}, err
+		return &GetTopGamesOutputType{}, err
 	}
 
 	return &grt, nil

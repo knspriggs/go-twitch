@@ -26,31 +26,6 @@ type StreamType struct {
 	Links       map[string]string `json:"_links"`
 }
 
-type ChannelType struct {
-	Mature                       bool              `json:"mature"`
-	Status                       string            `json:"status"`
-	BroadcasterLanguage          string            `json:"broadcaster_language"`
-	DisplayName                  string            `json:"display_name"`
-	Game                         string            `json:"game"`
-	Delay                        int               `json:"delay"`
-	Language                     string            `json:"language"`
-	ID                           int               `json:"_id"`
-	Name                         string            `json:"name"`
-	CreatedAt                    string            `json:"created_at"`
-	UpdatedAt                    string            `json:"updated_at"`
-	Logo                         string            `json:"logo"`
-	Banner                       string            `json:"banner"`
-	VideoBanner                  string            `json:"video_banner"`
-	Background                   string            `json:"background"`
-	ProfileBanner                string            `json:"profile_banner"`
-	ProfileBannerBackgroundColor string            `json:"profile_banner_background_color"`
-	Partner                      bool              `json:"partner"`
-	URL                          string            `json:"url"`
-	Views                        int               `json:"views"`
-	Followers                    int               `json:"followers"`
-	Links                        map[string]string `json:"_links"`
-}
-
 type FeaturedType struct {
 	Image     string     `json:"image"`
 	Text      string     `json:"text"`
