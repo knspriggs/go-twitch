@@ -7,7 +7,7 @@ import (
 )
 
 func TestGetTopGames(t *testing.T) {
-	req := &GamesRequestType{
+	req := &GamesInputType{
 		Limit:  10,
 		Offset: 0,
 	}

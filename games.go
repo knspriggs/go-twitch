@@ -7,12 +7,12 @@ import (
 	"net/url"
 )
 
-type GamesRequestType struct {
+type GamesInputType struct {
 	Limit  int
 	Offset int
 }
 
-type GamesResponseType struct {
+type GamesOutputType struct {
 	Links map[string]string `json:"_links"`
 	Total int               `json:"_total"`
 	Top   []Game            `json:"top"`
@@ -33,26 +33,26 @@ type GameInfo struct {
 	GiantBombID int               `json:"giantbomb_id"`
 }
 
-func (session *Session) GetTopGames(gamesRequestType *GamesRequestType) (*GamesResponseType, error) {
+func (session *Session) GetTopGames(gamesInputType *GamesInputType) (*GamesOutputType, error) {
 	u, err := url.Parse(session.URL + "/games/top")
 	if err != nil {
-		return &GamesResponseType{}, err
+		return &GamesOutputType{}, err
 	}
 	q := u.Query()
-	q.Set("limit", fmt.Sprintf("%d", gamesRequestType.Limit))
-	q.Set("offset", fmt.Sprintf("%d", gamesRequestType.Offset))
+	q.Set("limit", fmt.Sprintf("%d", gamesInputType.Limit))
+	q.Set("offset", fmt.Sprintf("%d", gamesInputType.Offset))
 	u.RawQuery = q.Encode()
 
 	res, _ := session.Request("GET", u.String())
 	body, err := ioutil.ReadAll(res.Body)
 	res.Body.Close()
 	if err != nil {
-		return &GamesResponseType{}, err
+		return &GamesOutputType{}, err
 	}
-	var grt GamesResponseType
+	var grt GamesOutputType
 	err = json.Unmarshal([]byte(body), &grt)
 	if err != nil {
-		return &GamesResponseType{}, err
+		return &GamesOutputType{}, err
 	}
 
 	return &grt, nil

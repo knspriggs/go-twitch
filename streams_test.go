@@ -7,7 +7,7 @@ import (
 )
 
 func TestGetStreamByChannel(t *testing.T) {
-	req := &GetStreamByChannelRequestType{
+	req := &GetStreamByChannelInputType{
 		Channel: "#knspriggs",
 	}
 	session, err := NewSession(DefaultURL, APIV3Header)
@@ -19,7 +19,7 @@ func TestGetStreamByChannel(t *testing.T) {
 }
 
 func TestGetStreamsWithoutRequestParams(t *testing.T) {
-	req := &GetStreamsRequestType{}
+	req := &GetStreamsInputType{}
 	session, err := NewSession(DefaultURL, APIV3Header)
 	resp, err := session.GetStream(req)
 	assert.Nil(t, err)
@@ -29,7 +29,7 @@ func TestGetStreamsWithoutRequestParams(t *testing.T) {
 }
 
 func TestGetStreamsWithPartialRequestParamsAndDefaults(t *testing.T) {
-	req := &GetStreamsRequestType{
+	req := &GetStreamsInputType{
 		Game: "Counter-Strike: Global Offensive",
 	}
 	session, err := NewSession(DefaultURL, APIV3Header)
@@ -41,7 +41,7 @@ func TestGetStreamsWithPartialRequestParamsAndDefaults(t *testing.T) {
 }
 
 func TestGetStreamsWithPartialRequestParams(t *testing.T) {
-	req := &GetStreamsRequestType{
+	req := &GetStreamsInputType{
 		Game:       "Counter-Strike: Global Offensive",
 		Limit:      10,
 		Offset:     1,
@@ -56,7 +56,7 @@ func TestGetStreamsWithPartialRequestParams(t *testing.T) {
 }
 
 func TestGetFeaturedStreams(t *testing.T) {
-	req := &GetFeaturedStreamsRequestType{}
+	req := &GetFeaturedStreamsInputType{}
 	session, err := NewSession(DefaultURL, APIV3Header)
 	resp, err := session.GetFeaturedStreams(req)
 	assert.Nil(t, err)
@@ -66,7 +66,7 @@ func TestGetFeaturedStreams(t *testing.T) {
 }
 
 func TestGetStreamsSummaryWithGame(t *testing.T) {
-	req := &GetStreamsSummaryRequestType{
+	req := &GetStreamsSummaryInputType{
 		Game: "Counter-Strike: Global Offensive",
 	}
 	session, err := NewSession(DefaultURL, APIV3Header)
@@ -78,7 +78,7 @@ func TestGetStreamsSummaryWithGame(t *testing.T) {
 }
 
 func TestGetStreamsSummaryWithoutGame(t *testing.T) {
-	req := &GetStreamsSummaryRequestType{}
+	req := &GetStreamsSummaryInputType{}
 	session, err := NewSession(DefaultURL, APIV3Header)
 	resp, err := session.GetStreamsSummary(req)
 	assert.Nil(t, err)

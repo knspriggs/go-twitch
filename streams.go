@@ -64,7 +64,7 @@ type FeaturedType struct {
 // Implementation and their respective request/response types
 //
 
-type GetStreamsRequestType struct {
+type GetStreamsInputType struct {
 	Game       string `url:"game,omitempty"`
 	Channel    string `url:"channel,omitempty"`
 	Limit      int    `url:"limit,omitempty"`
@@ -74,132 +74,132 @@ type GetStreamsRequestType struct {
 	Language   string `url:"language,omitempty"`
 }
 
-type GetStreamsResponseType struct {
+type GetStreamsOutputType struct {
 	Total   int               `json:"_total"`
 	Streams []StreamType      `json:"streams"`
 	Links   map[string]string `json:"_links"`
 }
 
-func (session *Session) GetStream(getStreamsRequestType *GetStreamsRequestType) (*GetStreamsResponseType, error) {
-	q, err := query.Values(getStreamsRequestType)
+func (session *Session) GetStream(getStreamsInputType *GetStreamsInputType) (*GetStreamsOutputType, error) {
+	q, err := query.Values(getStreamsInputType)
 	if err != nil {
-		return &GetStreamsResponseType{}, err
+		return &GetStreamsOutputType{}, err
 	}
 	u, err := url.Parse(session.URL + "/streams?" + q.Encode())
 	if err != nil {
-		return &GetStreamsResponseType{}, err
+		return &GetStreamsOutputType{}, err
 	}
 
 	res, _ := session.Request("GET", u.String())
 	body, err := ioutil.ReadAll(res.Body)
 	res.Body.Close()
 	if err != nil {
-		return &GetStreamsResponseType{}, err
+		return &GetStreamsOutputType{}, err
 	}
-	var s GetStreamsResponseType
+	var s GetStreamsOutputType
 	err = json.Unmarshal([]byte(body), &s)
 	if err != nil {
-		return &GetStreamsResponseType{}, err
+		return &GetStreamsOutputType{}, err
 	}
 
 	return &s, nil
 }
 
-type GetStreamByChannelRequestType struct {
+type GetStreamByChannelInputType struct {
 	Channel string `url:"channel"`
 }
 
-type GetStreamByChannelResponseType struct {
+type GetStreamByChannelOutputType struct {
 	Stream StreamType        `json:"stream"`
 	Links  map[string]string `json:"_links"`
 }
 
-func (session *Session) GetStreamByChannel(getStreamByChannelRequestType *GetStreamByChannelRequestType) (*GetStreamByChannelResponseType, error) {
-	u, err := url.Parse(session.URL + "/streams/" + getStreamByChannelRequestType.Channel)
+func (session *Session) GetStreamByChannel(getStreamByChannelInputType *GetStreamByChannelInputType) (*GetStreamByChannelOutputType, error) {
+	u, err := url.Parse(session.URL + "/streams/" + getStreamByChannelInputType.Channel)
 	if err != nil {
-		return &GetStreamByChannelResponseType{}, err
+		return &GetStreamByChannelOutputType{}, err
 	}
 
 	res, _ := session.Request("GET", u.String())
 	body, err := ioutil.ReadAll(res.Body)
 	res.Body.Close()
 	if err != nil {
-		return &GetStreamByChannelResponseType{}, err
+		return &GetStreamByChannelOutputType{}, err
 	}
-	var sbc GetStreamByChannelResponseType
+	var sbc GetStreamByChannelOutputType
 	err = json.Unmarshal([]byte(body), &sbc)
 	if err != nil {
-		return &GetStreamByChannelResponseType{}, err
+		return &GetStreamByChannelOutputType{}, err
 	}
 
 	return &sbc, nil
 }
 
-type GetFeaturedStreamsRequestType struct {
+type GetFeaturedStreamsInputType struct {
 	Limit  int `url:"limit,omitempty"`
 	Offset int `url:"offset,omitempty"`
 }
 
-type GetFeaturedStreamsResponseType struct {
+type GetFeaturedStreamsOutputType struct {
 	Featured []FeaturedType    `json:"featured"`
 	Links    map[string]string `json:"_links"`
 }
 
-func (session *Session) GetFeaturedStreams(getFeaturedStreamsRequestType *GetFeaturedStreamsRequestType) (*GetFeaturedStreamsResponseType, error) {
-	q, err := query.Values(getFeaturedStreamsRequestType)
+func (session *Session) GetFeaturedStreams(getFeaturedStreamsInputType *GetFeaturedStreamsInputType) (*GetFeaturedStreamsOutputType, error) {
+	q, err := query.Values(getFeaturedStreamsInputType)
 	if err != nil {
-		return &GetFeaturedStreamsResponseType{}, err
+		return &GetFeaturedStreamsOutputType{}, err
 	}
 	u, err := url.Parse(session.URL + "/streams/featured?" + q.Encode())
 	if err != nil {
-		return &GetFeaturedStreamsResponseType{}, err
+		return &GetFeaturedStreamsOutputType{}, err
 	}
 
 	res, _ := session.Request("GET", u.String())
 	body, err := ioutil.ReadAll(res.Body)
 	res.Body.Close()
 	if err != nil {
-		return &GetFeaturedStreamsResponseType{}, err
+		return &GetFeaturedStreamsOutputType{}, err
 	}
-	var s GetFeaturedStreamsResponseType
+	var s GetFeaturedStreamsOutputType
 	err = json.Unmarshal([]byte(body), &s)
 	if err != nil {
-		return &GetFeaturedStreamsResponseType{}, err
+		return &GetFeaturedStreamsOutputType{}, err
 	}
 
 	return &s, nil
 }
 
-type GetStreamsSummaryRequestType struct {
+type GetStreamsSummaryInputType struct {
 	Game string `url:"game,omitempty"`
 }
 
-type GetStreamsSummaryResponseType struct {
+type GetStreamsSummaryOutputType struct {
 	Viewers  int               `json:"viewers"`
 	Links    map[string]string `json:"_links"`
 	Channels int               `json:"channels"`
 }
 
-func (session *Session) GetStreamsSummary(getStreamsSummaryRequestType *GetStreamsSummaryRequestType) (*GetStreamsSummaryResponseType, error) {
-	q, err := query.Values(getStreamsSummaryRequestType)
+func (session *Session) GetStreamsSummary(getStreamsSummaryInputType *GetStreamsSummaryInputType) (*GetStreamsSummaryOutputType, error) {
+	q, err := query.Values(getStreamsSummaryInputType)
 	if err != nil {
-		return &GetStreamsSummaryResponseType{}, err
+		return &GetStreamsSummaryOutputType{}, err
 	}
 	u, err := url.Parse(session.URL + "/streams/summary?" + q.Encode())
 	if err != nil {
-		return &GetStreamsSummaryResponseType{}, err
+		return &GetStreamsSummaryOutputType{}, err
 	}
 
 	res, _ := session.Request("GET", u.String())
 	body, err := ioutil.ReadAll(res.Body)
 	res.Body.Close()
 	if err != nil {
-		return &GetStreamsSummaryResponseType{}, err
+		return &GetStreamsSummaryOutputType{}, err
 	}
-	var s GetStreamsSummaryResponseType
+	var s GetStreamsSummaryOutputType
 	err = json.Unmarshal([]byte(body), &s)
 	if err != nil {
-		return &GetStreamsSummaryResponseType{}, err
+		return &GetStreamsSummaryOutputType{}, err
 	}
 
 	return &s, nil
