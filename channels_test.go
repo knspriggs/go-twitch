@@ -6,15 +6,14 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestGetTopGames(t *testing.T) {
-	req := &GetTopGamesInputType{
-		Limit:  10,
-		Offset: 0,
+func TestGetChannel(t *testing.T) {
+	req := &GetChannelInputType{
+		Channel: "Nightblue3",
 	}
 	session, err := NewSession(DefaultURL, APIV3Header)
-	resp, err := session.GetTopGames(req)
+	resp, err := session.GetChannel(req)
 	assert.Nil(t, err)
 	if assert.NotNil(t, resp) {
-		assert.Equal(t, len(resp.Top), 10)
+		assert.NotEqual(t, resp.Views, 0)
 	}
 }
