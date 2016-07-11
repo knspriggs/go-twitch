@@ -31,6 +31,19 @@ type ChannelType struct {
 	Links                        map[string]string `json:"_links"`
 }
 
+type TeamType struct {
+	ID          int               `json:"_id"`
+	Name        string            `json:"name"`
+	Info        string            `json:"info"`
+	DisplayName string            `json:"display_name"`
+	CreatedAt   string            `json:"created_at"`
+	UpdatedAt   string            `json:"updated_at"`
+	Logo        string            `json:"logo"`
+	Banner      string            `json:"banner"`
+	Background  string            `json:"background"`
+	Links       map[string]string `json:"_links"`
+}
+
 //
 // Implementation and their respective request/response types
 //
@@ -56,6 +69,35 @@ func (session *Session) GetChannel(getChannelInputType *GetChannelInputType) (*G
 	err = json.Unmarshal([]byte(body), &out)
 	if err != nil {
 		return &GetChannelOutputType{}, err
+	}
+
+	return &out, nil
+}
+
+type GetChannelTeamsInputType struct {
+	Channel string
+}
+type GetChannelTeamsOutputType struct {
+	Teams []TeamType        `json:"teams"`
+	Links map[string]string `json:"_links"`
+}
+
+func (session *Session) GetChannelTeams(getChannelTeamsInputType *GetChannelTeamsInputType) (*GetChannelTeamsOutputType, error) {
+	u, err := url.Parse(session.URL + "/channels/" + getChannelTeamsInputType.Channel + "/teams")
+	if err != nil {
+		return &GetChannelTeamsOutputType{}, err
+	}
+
+	res, _ := session.Request("GET", u.String())
+	body, err := ioutil.ReadAll(res.Body)
+	res.Body.Close()
+	if err != nil {
+		return &GetChannelTeamsOutputType{}, err
+	}
+	var out GetChannelTeamsOutputType
+	err = json.Unmarshal([]byte(body), &out)
+	if err != nil {
+		return &GetChannelTeamsOutputType{}, err
 	}
 
 	return &out, nil

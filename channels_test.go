@@ -17,3 +17,16 @@ func TestGetChannel(t *testing.T) {
 		assert.NotEqual(t, resp.Views, 0)
 	}
 }
+
+func TestGetChannelTeams(t *testing.T) {
+	req := &GetChannelTeamsInputType{
+		Channel: "Nightblue3",
+	}
+	session, err := NewSession(DefaultURL, APIV3Header)
+	resp, err := session.GetChannelTeams(req)
+	assert.Nil(t, err)
+	if assert.NotNil(t, resp) {
+		t.Logf("%+v", resp)
+		assert.NotEqual(t, len(resp.Teams), 0)
+	}
+}
