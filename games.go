@@ -38,8 +38,8 @@ type GetTopGamesOutputType struct {
 	Top   []Game            `json:"top"`
 }
 
-func (session *Session) GetTopGames(gamesInputType *GetTopGamesInputType) (*GetTopGamesOutputType, error) {
-	q, err := query.Values(gamesInputType)
+func (session *Session) GetTopGames(getTopeGamesInputType *GetTopGamesInputType) (*GetTopGamesOutputType, error) {
+	q, err := query.Values(getTopeGamesInputType)
 	if err != nil {
 		return &GetTopGamesOutputType{}, err
 	}

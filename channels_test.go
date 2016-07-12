@@ -26,7 +26,6 @@ func TestGetChannelTeams(t *testing.T) {
 	resp, err := session.GetChannelTeams(req)
 	assert.Nil(t, err)
 	if assert.NotNil(t, resp) {
-		t.Logf("%+v", resp)
 		assert.NotEqual(t, len(resp.Teams), 0)
 	}
 }
