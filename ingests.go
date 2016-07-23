@@ -1,9 +1,6 @@
 package twitch
 
-import (
-	"net/url"
-)
-
+// IngestType -
 type IngestType struct {
 	Name         string  `json:"name"`
 	Default      bool    `json:"default"`
@@ -16,19 +13,16 @@ type IngestType struct {
 // Implementation and their respective request/response types
 //
 
+// GetIngestsOutputType -
 type GetIngestsOutputType struct {
 	Ingests []IngestType      `json:"ingests"`
 	Links   map[string]string `json:"_links"`
 }
 
+// GetIngests -
 func (session *Session) GetIngests() (*GetIngestsOutputType, error) {
-	u, err := url.Parse(session.URL + "/ingests")
-	if err != nil {
-		return &GetIngestsOutputType{}, err
-	}
-
 	var out GetIngestsOutputType
-	err = session.Request("GET", u.String(), &out)
+	err := session.Request("GET", "/ingests", nil, &out)
 	if err != nil {
 		return nil, err
 	}

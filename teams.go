@@ -1,9 +1,5 @@
 package twitch
 
-import (
-	"net/url"
-)
-
 //
 // Generic teams types
 //
@@ -40,13 +36,8 @@ type GetAllTeamsOutputType struct {
 
 // GetAllTeams -
 func (session *Session) GetAllTeams() (*GetAllTeamsOutputType, error) {
-	u, err := url.Parse(session.URL + "/teams/")
-	if err != nil {
-		return &GetAllTeamsOutputType{}, err
-	}
-
 	var out GetAllTeamsOutputType
-	err = session.Request("GET", u.String(), &out)
+	err := session.Request("GET", "/teams", nil, &out)
 	if err != nil {
 		return nil, err
 	}
@@ -63,13 +54,8 @@ type GetTeamOutputType TeamType
 
 // GetTeam -
 func (session *Session) GetTeam(getTeamInputType *GetTeamInputType) (*GetTeamOutputType, error) {
-	u, err := url.Parse(session.URL + "/teams/" + getTeamInputType.Team)
-	if err != nil {
-		return &GetTeamOutputType{}, err
-	}
-
 	var out GetTeamOutputType
-	err = session.Request("GET", u.String(), &out)
+	err := session.Request("GET", "/teams/"+getTeamInputType.Team, nil, &out)
 	if err != nil {
 		return nil, err
 	}

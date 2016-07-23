@@ -1,11 +1,6 @@
 package twitch
 
-import (
-	"net/url"
-
-	"github.com/google/go-querystring/query"
-)
-
+// FollowsChannelType -
 type FollowsChannelType struct {
 	CreatedAt     string            `json:"created_at"`
 	Notifications bool              `json:"notifications"`
@@ -13,6 +8,7 @@ type FollowsChannelType struct {
 	Links         map[string]string `json:"_links"`
 }
 
+// FollowsUserType -
 type FollowsUserType struct {
 	CreatedAt     string            `json:"created_at"`
 	Notifications bool              `json:"notifications"`
@@ -24,12 +20,15 @@ type FollowsUserType struct {
 // Implementation and their respective request/response types
 //
 
+// GetChannelFollowsInputType -
 type GetChannelFollowsInputType struct {
 	Channel   string
-	Limit     int    `url:"limit"`
-	Cursor    string `url:"cursor"`
-	Direction string `url:"direction"`
+	Limit     int    `url:"limit,omitempty"`
+	Cursor    string `url:"cursor,omitempty"`
+	Direction string `url:"direction,omitempty"`
 }
+
+// GetChannelFollowsOutputType -
 type GetChannelFollowsOutputType struct {
 	Total   int               `json:"_total"`
 	Cursor  string            `json:"_cursor"`
@@ -37,30 +36,25 @@ type GetChannelFollowsOutputType struct {
 	Links   map[string]string `json:"_links"`
 }
 
+// GetChannelFollows -
 func (session *Session) GetChannelFollows(getChannelFollowsInputType *GetChannelFollowsInputType) (*GetChannelFollowsOutputType, error) {
-	q, err := query.Values(getChannelFollowsInputType)
-	if err != nil {
-		return &GetChannelFollowsOutputType{}, err
-	}
-	u, err := url.Parse(session.URL + "/channels/" + getChannelFollowsInputType.Channel + "/follows?" + q.Encode())
-	if err != nil {
-		return &GetChannelFollowsOutputType{}, err
-	}
-
 	var out GetChannelFollowsOutputType
-	err = session.Request("GET", u.String(), &out)
+	err := session.Request("GET", "/channels/"+getChannelFollowsInputType.Channel+"/follows", &getChannelFollowsInputType, &out)
 	if err != nil {
 		return nil, err
 	}
 	return &out, nil
 }
 
+// GetUserFollowsInputType -
 type GetUserFollowsInputType struct {
 	User      string
-	Limit     int    `url:"limit"`
-	Direction string `url:"direction"`
-	SortyBy   string `url:"sortby"`
+	Limit     int    `url:"limit,omitempty"`
+	Direction string `url:"direction,omitempty"`
+	SortyBy   string `url:"sortby,omitempty"`
 }
+
+// GetUserFollowsOutputType -
 type GetUserFollowsOutputType struct {
 	Total   int                  `json:"_total"`
 	Cursor  string               `json:"_cursor"`
@@ -68,28 +62,23 @@ type GetUserFollowsOutputType struct {
 	Links   map[string]string    `json:"_links"`
 }
 
+// GetUserFollows -
 func (session *Session) GetUserFollows(getUserFollowsInputType *GetUserFollowsInputType) (*GetUserFollowsOutputType, error) {
-	q, err := query.Values(getUserFollowsInputType)
-	if err != nil {
-		return &GetUserFollowsOutputType{}, err
-	}
-	u, err := url.Parse(session.URL + "/users/" + getUserFollowsInputType.User + "/follows/channels?" + q.Encode())
-	if err != nil {
-		return &GetUserFollowsOutputType{}, err
-	}
-
 	var out GetUserFollowsOutputType
-	err = session.Request("GET", u.String(), &out)
+	err := session.Request("GET", "/users/"+getUserFollowsInputType.User+"/follows/channels", &getUserFollowsInputType, &out)
 	if err != nil {
 		return nil, err
 	}
 	return &out, nil
 }
 
+// GetUserFollowsChannelInputType -
 type GetUserFollowsChannelInputType struct {
 	User    string
 	Channel string
 }
+
+// GetUserFollowsChannelOutputType -
 type GetUserFollowsChannelOutputType struct {
 	Follows       bool
 	CreatedAt     string            `json:"created_at"`
@@ -98,14 +87,10 @@ type GetUserFollowsChannelOutputType struct {
 	Links         map[string]string `json:"_links"`
 }
 
+// GetUserFollowsChannel -
 func (session *Session) GetUserFollowsChannel(getUserFollowsChannelInputType *GetUserFollowsChannelInputType) (*GetUserFollowsChannelOutputType, error) {
-	u, err := url.Parse(session.URL + "/users/" + getUserFollowsChannelInputType.User + "/follows/channels/" + getUserFollowsChannelInputType.Channel)
-	if err != nil {
-		return &GetUserFollowsChannelOutputType{}, err
-	}
-
 	var out GetUserFollowsChannelOutputType
-	err = session.Request("GET", u.String(), &out)
+	err := session.Request("GET", "/users/"+getUserFollowsChannelInputType.User+"/follows/channels/"+getUserFollowsChannelInputType.Channel, nil, &out)
 	if err != nil {
 		return nil, err
 	}

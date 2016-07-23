@@ -1,11 +1,5 @@
 package twitch
 
-import (
-	"net/url"
-
-	"github.com/google/go-querystring/query"
-)
-
 //
 // Generic streams types
 //
@@ -52,17 +46,8 @@ type GetTopVideosOutputType struct {
 
 // GetTopVideos -
 func (session *Session) GetTopVideos(getTopVideosInputType *GetTopVideosInputType) (*GetTopVideosOutputType, error) {
-	q, err := query.Values(getTopVideosInputType)
-	if err != nil {
-		return &GetTopVideosOutputType{}, err
-	}
-	u, err := url.Parse(session.URL + "/videos/top?" + q.Encode())
-	if err != nil {
-		return nil, err
-	}
-
 	var out GetTopVideosOutputType
-	err = session.Request("GET", u.String(), &out)
+	err := session.Request("GET", "/videos/top", &getTopVideosInputType, &out)
 	if err != nil {
 		return nil, err
 	}
@@ -87,17 +72,8 @@ type GetChannelVideosOutputType struct {
 
 // GetChannelVideos -
 func (session *Session) GetChannelVideos(getChannelVideosInputType *GetChannelVideosInputType) (*GetChannelVideosOutputType, error) {
-	q, err := query.Values(getChannelVideosInputType)
-	if err != nil {
-		return &GetChannelVideosOutputType{}, err
-	}
-	u, err := url.Parse(session.URL + "/channels/" + getChannelVideosInputType.Channel + "/videos?" + q.Encode())
-	if err != nil {
-		return nil, err
-	}
-
 	var out GetChannelVideosOutputType
-	err = session.Request("GET", u.String(), &out)
+	err := session.Request("GET", "/channels/"+getChannelVideosInputType.Channel+"/videos", &getChannelVideosInputType, &out)
 	if err != nil {
 		return nil, err
 	}

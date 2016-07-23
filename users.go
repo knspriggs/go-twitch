@@ -1,5 +1,6 @@
 package twitch
 
+// UserType -
 type UserType struct {
 	Type        string            `json:"type"`
 	Bio         string            `json:"bio"`

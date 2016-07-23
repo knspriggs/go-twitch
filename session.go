@@ -5,14 +5,18 @@ import (
 	"encoding/json"
 	"io/ioutil"
 	"net/http"
+
+	"github.com/google/go-querystring/query"
 )
 
+// Session -
 type Session struct {
 	Client        *http.Client
 	URL           string
 	VersionHeader string
 }
 
+// NewSession -
 func NewSession(url string, versionHeader string) (*Session, error) {
 	client := &http.Client{}
 	return &Session{
@@ -22,8 +26,19 @@ func NewSession(url string, versionHeader string) (*Session, error) {
 	}, nil
 }
 
-func (session *Session) Request(method string, url string, r interface{}) error {
-	request, requestError := http.NewRequest(method, url, bytes.NewBuffer([]byte("")))
+// Request -
+func (session *Session) Request(method string, url string, q interface{}, r interface{}) error {
+	var queryString string
+	if q != nil {
+		query, err := query.Values(q)
+		if err != nil {
+			return err
+		}
+		queryString = "?" + query.Encode()
+	} else {
+		queryString = ""
+	}
+	request, requestError := http.NewRequest(method, session.URL+url+queryString, bytes.NewBuffer([]byte("")))
 	if requestError != nil {
 		return requestError
 	}
