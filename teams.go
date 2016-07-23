@@ -1,8 +1,6 @@
 package twitch
 
 import (
-	"encoding/json"
-	"io/ioutil"
 	"net/url"
 )
 
@@ -47,19 +45,12 @@ func (session *Session) GetAllTeams() (*GetAllTeamsOutputType, error) {
 		return &GetAllTeamsOutputType{}, err
 	}
 
-	res, _ := session.Request("GET", u.String())
-	body, err := ioutil.ReadAll(res.Body)
-	res.Body.Close()
+	var out GetAllTeamsOutputType
+	err = session.Request("GET", u.String(), &out)
 	if err != nil {
-		return &GetAllTeamsOutputType{}, err
+		return nil, err
 	}
-	var sbc GetAllTeamsOutputType
-	err = json.Unmarshal([]byte(body), &sbc)
-	if err != nil {
-		return &GetAllTeamsOutputType{}, err
-	}
-
-	return &sbc, nil
+	return &out, nil
 }
 
 // GetTeamInputType -
@@ -77,17 +68,10 @@ func (session *Session) GetTeam(getTeamInputType *GetTeamInputType) (*GetTeamOut
 		return &GetTeamOutputType{}, err
 	}
 
-	res, _ := session.Request("GET", u.String())
-	body, err := ioutil.ReadAll(res.Body)
-	res.Body.Close()
+	var out GetTeamOutputType
+	err = session.Request("GET", u.String(), &out)
 	if err != nil {
-		return &GetTeamOutputType{}, err
+		return nil, err
 	}
-	var sbc GetTeamOutputType
-	err = json.Unmarshal([]byte(body), &sbc)
-	if err != nil {
-		return &GetTeamOutputType{}, err
-	}
-
-	return &sbc, nil
+	return &out, nil
 }

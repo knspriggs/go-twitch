@@ -1,8 +1,6 @@
 package twitch
 
 import (
-	"encoding/json"
-	"io/ioutil"
 	"net/url"
 
 	"github.com/google/go-querystring/query"
@@ -49,18 +47,11 @@ func (session *Session) GetChannelFollows(getChannelFollowsInputType *GetChannel
 		return &GetChannelFollowsOutputType{}, err
 	}
 
-	res, _ := session.Request("GET", u.String())
-	body, err := ioutil.ReadAll(res.Body)
-	res.Body.Close()
-	if err != nil {
-		return &GetChannelFollowsOutputType{}, err
-	}
 	var out GetChannelFollowsOutputType
-	err = json.Unmarshal([]byte(body), &out)
+	err = session.Request("GET", u.String(), &out)
 	if err != nil {
-		return &GetChannelFollowsOutputType{}, err
+		return nil, err
 	}
-
 	return &out, nil
 }
 
@@ -87,18 +78,11 @@ func (session *Session) GetUserFollows(getUserFollowsInputType *GetUserFollowsIn
 		return &GetUserFollowsOutputType{}, err
 	}
 
-	res, _ := session.Request("GET", u.String())
-	body, err := ioutil.ReadAll(res.Body)
-	res.Body.Close()
-	if err != nil {
-		return &GetUserFollowsOutputType{}, err
-	}
 	var out GetUserFollowsOutputType
-	err = json.Unmarshal([]byte(body), &out)
+	err = session.Request("GET", u.String(), &out)
 	if err != nil {
-		return &GetUserFollowsOutputType{}, err
+		return nil, err
 	}
-
 	return &out, nil
 }
 
@@ -120,21 +104,10 @@ func (session *Session) GetUserFollowsChannel(getUserFollowsChannelInputType *Ge
 		return &GetUserFollowsChannelOutputType{}, err
 	}
 
-	res, _ := session.Request("GET", u.String())
-	if res.StatusCode == 404 {
-		return &GetUserFollowsChannelOutputType{
-			Follows: false,
-		}, nil
-	}
-	body, err := ioutil.ReadAll(res.Body)
-	res.Body.Close()
-	if err != nil {
-		return &GetUserFollowsChannelOutputType{}, err
-	}
 	var out GetUserFollowsChannelOutputType
-	err = json.Unmarshal([]byte(body), &out)
+	err = session.Request("GET", u.String(), &out)
 	if err != nil {
-		return &GetUserFollowsChannelOutputType{}, err
+		return nil, err
 	}
 	out.Follows = true
 	return &out, nil

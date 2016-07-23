@@ -1,8 +1,6 @@
 package twitch
 
 import (
-	"encoding/json"
-	"io/ioutil"
 	"net/url"
 )
 
@@ -29,17 +27,10 @@ func (session *Session) GetIngests() (*GetIngestsOutputType, error) {
 		return &GetIngestsOutputType{}, err
 	}
 
-	res, _ := session.Request("GET", u.String())
-	body, err := ioutil.ReadAll(res.Body)
-	res.Body.Close()
-	if err != nil {
-		return &GetIngestsOutputType{}, err
-	}
 	var out GetIngestsOutputType
-	err = json.Unmarshal([]byte(body), &out)
+	err = session.Request("GET", u.String(), &out)
 	if err != nil {
-		return &GetIngestsOutputType{}, err
+		return nil, err
 	}
-
 	return &out, nil
 }
