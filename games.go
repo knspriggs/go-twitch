@@ -1,17 +1,13 @@
 package twitch
 
-import (
-	"net/url"
-
-	"github.com/google/go-querystring/query"
-)
-
+// Game -
 type Game struct {
 	GameInfo GameInfo `json:"game"`
 	Viewers  int      `json:"viewers"`
 	Channels int      `json:"channels"`
 }
 
+// GameInfo -
 type GameInfo struct {
 	Name        string            `json:"name"`
 	Box         map[string]string `json:"box"`
@@ -25,29 +21,23 @@ type GameInfo struct {
 // Implementation and their respective request/response types
 //
 
+// GetTopGamesInputType -
 type GetTopGamesInputType struct {
-	Limit  int
-	Offset int
+	Limit  int `url:"limit,omitempty"`
+	Offset int `url:"offset,omitempty"`
 }
 
+// GetTopGamesOutputType -
 type GetTopGamesOutputType struct {
 	Links map[string]string `json:"_links"`
 	Total int               `json:"_total"`
 	Top   []Game            `json:"top"`
 }
 
+// GetTopGames -
 func (session *Session) GetTopGames(getTopeGamesInputType *GetTopGamesInputType) (*GetTopGamesOutputType, error) {
-	q, err := query.Values(getTopeGamesInputType)
-	if err != nil {
-		return &GetTopGamesOutputType{}, err
-	}
-	u, err := url.Parse(session.URL + "/games/top?" + q.Encode())
-	if err != nil {
-		return &GetTopGamesOutputType{}, err
-	}
-
 	var out GetTopGamesOutputType
-	err = session.Request("GET", u.String(), &out)
+	err := session.Request("GET", "/games/top", &getTopeGamesInputType, &out)
 	if err != nil {
 		return nil, err
 	}

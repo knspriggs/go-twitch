@@ -1,9 +1,6 @@
 package twitch
 
-import (
-	"net/url"
-)
-
+// ChannelType -
 type ChannelType struct {
 	Mature                       bool              `json:"mature"`
 	Status                       string            `json:"status"`
@@ -33,41 +30,39 @@ type ChannelType struct {
 // Implementation and their respective request/response types
 //
 
+// GetChannelInputType -
 type GetChannelInputType struct {
 	Channel string
 }
+
+// GetChannelOutputType -
 type GetChannelOutputType ChannelType
 
+// GetChannel -
 func (session *Session) GetChannel(getChannelInputType *GetChannelInputType) (*GetChannelOutputType, error) {
-	u, err := url.Parse(session.URL + "/channels/" + getChannelInputType.Channel)
-	if err != nil {
-		return &GetChannelOutputType{}, err
-	}
-
 	var out GetChannelOutputType
-	err = session.Request("GET", u.String(), &out)
+	err := session.Request("GET", "/channels/"+getChannelInputType.Channel, nil, &out)
 	if err != nil {
 		return nil, err
 	}
 	return &out, nil
 }
 
+// GetChannelTeamsInputType -
 type GetChannelTeamsInputType struct {
 	Channel string
 }
+
+// GetChannelTeamsOutputType -
 type GetChannelTeamsOutputType struct {
 	Teams []TeamType        `json:"teams"`
 	Links map[string]string `json:"_links"`
 }
 
+// GetChannelTeams -
 func (session *Session) GetChannelTeams(getChannelTeamsInputType *GetChannelTeamsInputType) (*GetChannelTeamsOutputType, error) {
-	u, err := url.Parse(session.URL + "/channels/" + getChannelTeamsInputType.Channel + "/teams")
-	if err != nil {
-		return &GetChannelTeamsOutputType{}, err
-	}
-
 	var out GetChannelTeamsOutputType
-	err = session.Request("GET", u.String(), &out)
+	err := session.Request("GET", "/channels/"+getChannelTeamsInputType.Channel+"/teams", nil, &out)
 	if err != nil {
 		return nil, err
 	}
