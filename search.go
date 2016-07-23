@@ -1,8 +1,6 @@
 package twitch
 
 import (
-	"encoding/json"
-	"io/ioutil"
 	"net/url"
 
 	"github.com/google/go-querystring/query"
@@ -34,18 +32,11 @@ func (session *Session) SearchChannels(searchChannelsInputType *SearchChannelsIn
 		return &SearchChannelsOutputType{}, err
 	}
 
-	res, _ := session.Request("GET", u.String())
-	body, err := ioutil.ReadAll(res.Body)
-	res.Body.Close()
-	if err != nil {
-		return &SearchChannelsOutputType{}, err
-	}
 	var out SearchChannelsOutputType
-	err = json.Unmarshal([]byte(body), &out)
+	err = session.Request("GET", u.String(), &out)
 	if err != nil {
-		return &SearchChannelsOutputType{}, err
+		return nil, err
 	}
-
 	return &out, nil
 }
 
@@ -72,18 +63,11 @@ func (session *Session) SearchStreams(searchStreamsInputType *SearchStreamsInput
 		return &SearchStreamsOutputType{}, err
 	}
 
-	res, _ := session.Request("GET", u.String())
-	body, err := ioutil.ReadAll(res.Body)
-	res.Body.Close()
-	if err != nil {
-		return &SearchStreamsOutputType{}, err
-	}
 	var out SearchStreamsOutputType
-	err = json.Unmarshal([]byte(body), &out)
+	err = session.Request("GET", u.String(), &out)
 	if err != nil {
-		return &SearchStreamsOutputType{}, err
+		return nil, err
 	}
-
 	return &out, nil
 }
 
@@ -108,17 +92,10 @@ func (session *Session) SearchGames(searchGamesInputType *SearchGamesInputType) 
 		return &SearchGamesOutputType{}, err
 	}
 
-	res, _ := session.Request("GET", u.String())
-	body, err := ioutil.ReadAll(res.Body)
-	res.Body.Close()
-	if err != nil {
-		return &SearchGamesOutputType{}, err
-	}
 	var out SearchGamesOutputType
-	err = json.Unmarshal([]byte(body), &out)
+	err = session.Request("GET", u.String(), &out)
 	if err != nil {
-		return &SearchGamesOutputType{}, err
+		return nil, err
 	}
-
 	return &out, nil
 }

@@ -1,8 +1,6 @@
 package twitch
 
 import (
-	"encoding/json"
-	"io/ioutil"
 	"net/url"
 
 	"github.com/google/go-querystring/query"
@@ -63,19 +61,12 @@ func (session *Session) GetTopVideos(getTopVideosInputType *GetTopVideosInputTyp
 		return nil, err
 	}
 
-	res, _ := session.Request("GET", u.String())
-	body, err := ioutil.ReadAll(res.Body)
-	res.Body.Close()
+	var out GetTopVideosOutputType
+	err = session.Request("GET", u.String(), &out)
 	if err != nil {
 		return nil, err
 	}
-	var s GetTopVideosOutputType
-	err = json.Unmarshal([]byte(body), &s)
-	if err != nil {
-		return nil, err
-	}
-
-	return &s, nil
+	return &out, nil
 }
 
 // GetChannelVideosInputType -
@@ -105,17 +96,10 @@ func (session *Session) GetChannelVideos(getChannelVideosInputType *GetChannelVi
 		return nil, err
 	}
 
-	res, _ := session.Request("GET", u.String())
-	body, err := ioutil.ReadAll(res.Body)
-	res.Body.Close()
+	var out GetChannelVideosOutputType
+	err = session.Request("GET", u.String(), &out)
 	if err != nil {
 		return nil, err
 	}
-	var s GetChannelVideosOutputType
-	err = json.Unmarshal([]byte(body), &s)
-	if err != nil {
-		return nil, err
-	}
-
-	return &s, nil
+	return &out, nil
 }

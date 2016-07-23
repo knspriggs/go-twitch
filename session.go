@@ -2,6 +2,8 @@ package twitch
 
 import (
 	"bytes"
+	"encoding/json"
+	"io/ioutil"
 	"net/http"
 )
 
@@ -20,16 +22,27 @@ func NewSession(url string, versionHeader string) (*Session, error) {
 	}, nil
 }
 
-func (session *Session) Request(method string, url string) (*http.Response, error) {
+func (session *Session) Request(method string, url string, r interface{}) error {
 	request, requestError := http.NewRequest(method, url, bytes.NewBuffer([]byte("")))
 	if requestError != nil {
-		return &http.Response{}, requestError
+		return requestError
 	}
 	request.Header.Add("Accept", APIV3Header)
 
 	response, responseError := session.Client.Do(request)
 	if responseError != nil {
-		return &http.Response{}, responseError
+		return responseError
 	}
-	return response, nil
+
+	body, err := ioutil.ReadAll(response.Body)
+	response.Body.Close()
+	if err != nil {
+		return err
+	}
+	err = json.Unmarshal([]byte(body), r)
+	if err != nil {
+		return err
+	}
+
+	return nil
 }

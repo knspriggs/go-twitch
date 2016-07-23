@@ -1,8 +1,6 @@
 package twitch
 
 import (
-	"encoding/json"
-	"io/ioutil"
 	"net/url"
 
 	"github.com/google/go-querystring/query"
@@ -48,17 +46,10 @@ func (session *Session) GetTopGames(getTopeGamesInputType *GetTopGamesInputType)
 		return &GetTopGamesOutputType{}, err
 	}
 
-	res, _ := session.Request("GET", u.String())
-	body, err := ioutil.ReadAll(res.Body)
-	res.Body.Close()
+	var out GetTopGamesOutputType
+	err = session.Request("GET", u.String(), &out)
 	if err != nil {
-		return &GetTopGamesOutputType{}, err
+		return nil, err
 	}
-	var grt GetTopGamesOutputType
-	err = json.Unmarshal([]byte(body), &grt)
-	if err != nil {
-		return &GetTopGamesOutputType{}, err
-	}
-
-	return &grt, nil
+	return &out, nil
 }

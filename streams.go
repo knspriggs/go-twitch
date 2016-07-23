@@ -1,8 +1,6 @@
 package twitch
 
 import (
-	"encoding/json"
-	"io/ioutil"
 	"net/url"
 
 	"github.com/google/go-querystring/query"
@@ -65,19 +63,12 @@ func (session *Session) GetStream(getStreamsInputType *GetStreamsInputType) (*Ge
 		return &GetStreamsOutputType{}, err
 	}
 
-	res, _ := session.Request("GET", u.String())
-	body, err := ioutil.ReadAll(res.Body)
-	res.Body.Close()
+	var out GetStreamsOutputType
+	err = session.Request("GET", u.String(), &out)
 	if err != nil {
-		return &GetStreamsOutputType{}, err
+		return nil, err
 	}
-	var s GetStreamsOutputType
-	err = json.Unmarshal([]byte(body), &s)
-	if err != nil {
-		return &GetStreamsOutputType{}, err
-	}
-
-	return &s, nil
+	return &out, nil
 }
 
 type GetStreamByChannelInputType struct {
@@ -95,19 +86,12 @@ func (session *Session) GetStreamByChannel(getStreamByChannelInputType *GetStrea
 		return &GetStreamByChannelOutputType{}, err
 	}
 
-	res, _ := session.Request("GET", u.String())
-	body, err := ioutil.ReadAll(res.Body)
-	res.Body.Close()
+	var out GetStreamByChannelOutputType
+	err = session.Request("GET", u.String(), &out)
 	if err != nil {
-		return &GetStreamByChannelOutputType{}, err
+		return nil, err
 	}
-	var sbc GetStreamByChannelOutputType
-	err = json.Unmarshal([]byte(body), &sbc)
-	if err != nil {
-		return &GetStreamByChannelOutputType{}, err
-	}
-
-	return &sbc, nil
+	return &out, nil
 }
 
 type GetFeaturedStreamsInputType struct {
@@ -130,19 +114,12 @@ func (session *Session) GetFeaturedStreams(getFeaturedStreamsInputType *GetFeatu
 		return &GetFeaturedStreamsOutputType{}, err
 	}
 
-	res, _ := session.Request("GET", u.String())
-	body, err := ioutil.ReadAll(res.Body)
-	res.Body.Close()
+	var out GetFeaturedStreamsOutputType
+	err = session.Request("GET", u.String(), &out)
 	if err != nil {
-		return &GetFeaturedStreamsOutputType{}, err
+		return nil, err
 	}
-	var s GetFeaturedStreamsOutputType
-	err = json.Unmarshal([]byte(body), &s)
-	if err != nil {
-		return &GetFeaturedStreamsOutputType{}, err
-	}
-
-	return &s, nil
+	return &out, nil
 }
 
 type GetStreamsSummaryInputType struct {
@@ -165,17 +142,10 @@ func (session *Session) GetStreamsSummary(getStreamsSummaryInputType *GetStreams
 		return &GetStreamsSummaryOutputType{}, err
 	}
 
-	res, _ := session.Request("GET", u.String())
-	body, err := ioutil.ReadAll(res.Body)
-	res.Body.Close()
+	var out GetStreamsSummaryOutputType
+	err = session.Request("GET", u.String(), &out)
 	if err != nil {
-		return &GetStreamsSummaryOutputType{}, err
+		return nil, err
 	}
-	var s GetStreamsSummaryOutputType
-	err = json.Unmarshal([]byte(body), &s)
-	if err != nil {
-		return &GetStreamsSummaryOutputType{}, err
-	}
-
-	return &s, nil
+	return &out, nil
 }
