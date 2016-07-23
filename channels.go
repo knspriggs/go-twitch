@@ -31,19 +31,6 @@ type ChannelType struct {
 	Links                        map[string]string `json:"_links"`
 }
 
-type TeamType struct {
-	ID          int               `json:"_id"`
-	Name        string            `json:"name"`
-	Info        string            `json:"info"`
-	DisplayName string            `json:"display_name"`
-	CreatedAt   string            `json:"created_at"`
-	UpdatedAt   string            `json:"updated_at"`
-	Logo        string            `json:"logo"`
-	Banner      string            `json:"banner"`
-	Background  string            `json:"background"`
-	Links       map[string]string `json:"_links"`
-}
-
 //
 // Implementation and their respective request/response types
 //
