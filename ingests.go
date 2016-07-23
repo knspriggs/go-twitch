@@ -22,7 +22,7 @@ type GetIngestsOutputType struct {
 // GetIngests -
 func (session *Session) GetIngests() (*GetIngestsOutputType, error) {
 	var out GetIngestsOutputType
-	err := session.Request("GET", "/ingests", nil, &out)
+	err := session.request("GET", "/ingests", nil, &out)
 	if err != nil {
 		return nil, err
 	}

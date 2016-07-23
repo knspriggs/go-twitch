@@ -37,7 +37,7 @@ type GetTopGamesOutputType struct {
 // GetTopGames -
 func (session *Session) GetTopGames(getTopeGamesInputType *GetTopGamesInputType) (*GetTopGamesOutputType, error) {
 	var out GetTopGamesOutputType
-	err := session.Request("GET", "/games/top", &getTopeGamesInputType, &out)
+	err := session.request("GET", "/games/top", &getTopeGamesInputType, &out)
 	if err != nil {
 		return nil, err
 	}

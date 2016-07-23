@@ -26,8 +26,7 @@ func NewSession(url string, versionHeader string) (*Session, error) {
 	}, nil
 }
 
-// Request -
-func (session *Session) Request(method string, url string, q interface{}, r interface{}) error {
+func (session *Session) request(method string, url string, q interface{}, r interface{}) error {
 	var queryString string
 	if q != nil {
 		query, err := query.Values(q)

@@ -37,7 +37,7 @@ type GetAllTeamsOutputType struct {
 // GetAllTeams -
 func (session *Session) GetAllTeams() (*GetAllTeamsOutputType, error) {
 	var out GetAllTeamsOutputType
-	err := session.Request("GET", "/teams", nil, &out)
+	err := session.request("GET", "/teams", nil, &out)
 	if err != nil {
 		return nil, err
 	}
@@ -55,7 +55,7 @@ type GetTeamOutputType TeamType
 // GetTeam -
 func (session *Session) GetTeam(getTeamInputType *GetTeamInputType) (*GetTeamOutputType, error) {
 	var out GetTeamOutputType
-	err := session.Request("GET", "/teams/"+getTeamInputType.Team, nil, &out)
+	err := session.request("GET", "/teams/"+getTeamInputType.Team, nil, &out)
 	if err != nil {
 		return nil, err
 	}

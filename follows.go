@@ -39,7 +39,7 @@ type GetChannelFollowsOutputType struct {
 // GetChannelFollows -
 func (session *Session) GetChannelFollows(getChannelFollowsInputType *GetChannelFollowsInputType) (*GetChannelFollowsOutputType, error) {
 	var out GetChannelFollowsOutputType
-	err := session.Request("GET", "/channels/"+getChannelFollowsInputType.Channel+"/follows", &getChannelFollowsInputType, &out)
+	err := session.request("GET", "/channels/"+getChannelFollowsInputType.Channel+"/follows", &getChannelFollowsInputType, &out)
 	if err != nil {
 		return nil, err
 	}
@@ -65,7 +65,7 @@ type GetUserFollowsOutputType struct {
 // GetUserFollows -
 func (session *Session) GetUserFollows(getUserFollowsInputType *GetUserFollowsInputType) (*GetUserFollowsOutputType, error) {
 	var out GetUserFollowsOutputType
-	err := session.Request("GET", "/users/"+getUserFollowsInputType.User+"/follows/channels", &getUserFollowsInputType, &out)
+	err := session.request("GET", "/users/"+getUserFollowsInputType.User+"/follows/channels", &getUserFollowsInputType, &out)
 	if err != nil {
 		return nil, err
 	}
@@ -90,7 +90,7 @@ type GetUserFollowsChannelOutputType struct {
 // GetUserFollowsChannel -
 func (session *Session) GetUserFollowsChannel(getUserFollowsChannelInputType *GetUserFollowsChannelInputType) (*GetUserFollowsChannelOutputType, error) {
 	var out GetUserFollowsChannelOutputType
-	err := session.Request("GET", "/users/"+getUserFollowsChannelInputType.User+"/follows/channels/"+getUserFollowsChannelInputType.Channel, nil, &out)
+	err := session.request("GET", "/users/"+getUserFollowsChannelInputType.User+"/follows/channels/"+getUserFollowsChannelInputType.Channel, nil, &out)
 	if err != nil {
 		return nil, err
 	}

@@ -47,7 +47,7 @@ type GetTopVideosOutputType struct {
 // GetTopVideos -
 func (session *Session) GetTopVideos(getTopVideosInputType *GetTopVideosInputType) (*GetTopVideosOutputType, error) {
 	var out GetTopVideosOutputType
-	err := session.Request("GET", "/videos/top", &getTopVideosInputType, &out)
+	err := session.request("GET", "/videos/top", &getTopVideosInputType, &out)
 	if err != nil {
 		return nil, err
 	}
@@ -73,7 +73,7 @@ type GetChannelVideosOutputType struct {
 // GetChannelVideos -
 func (session *Session) GetChannelVideos(getChannelVideosInputType *GetChannelVideosInputType) (*GetChannelVideosOutputType, error) {
 	var out GetChannelVideosOutputType
-	err := session.Request("GET", "/channels/"+getChannelVideosInputType.Channel+"/videos", &getChannelVideosInputType, &out)
+	err := session.request("GET", "/channels/"+getChannelVideosInputType.Channel+"/videos", &getChannelVideosInputType, &out)
 	if err != nil {
 		return nil, err
 	}

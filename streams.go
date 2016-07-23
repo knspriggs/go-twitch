@@ -54,7 +54,7 @@ type GetStreamsOutputType struct {
 // GetStream -
 func (session *Session) GetStream(getStreamsInputType *GetStreamsInputType) (*GetStreamsOutputType, error) {
 	var out GetStreamsOutputType
-	err := session.Request("GET", "/streams", &getStreamsInputType, &out)
+	err := session.request("GET", "/streams", &getStreamsInputType, &out)
 	if err != nil {
 		return nil, err
 	}
@@ -75,7 +75,7 @@ type GetStreamByChannelOutputType struct {
 // GetStreamByChannel -
 func (session *Session) GetStreamByChannel(getStreamByChannelInputType *GetStreamByChannelInputType) (*GetStreamByChannelOutputType, error) {
 	var out GetStreamByChannelOutputType
-	err := session.Request("GET", "/streams/"+getStreamByChannelInputType.Channel, nil, &out)
+	err := session.request("GET", "/streams/"+getStreamByChannelInputType.Channel, nil, &out)
 	if err != nil {
 		return nil, err
 	}
@@ -97,7 +97,7 @@ type GetFeaturedStreamsOutputType struct {
 // GetFeaturedStreams -
 func (session *Session) GetFeaturedStreams(getFeaturedStreamsInputType *GetFeaturedStreamsInputType) (*GetFeaturedStreamsOutputType, error) {
 	var out GetFeaturedStreamsOutputType
-	err := session.Request("GET", "/streams/featured", &getFeaturedStreamsInputType, &out)
+	err := session.request("GET", "/streams/featured", &getFeaturedStreamsInputType, &out)
 	if err != nil {
 		return nil, err
 	}
@@ -119,7 +119,7 @@ type GetStreamsSummaryOutputType struct {
 // GetStreamsSummary -
 func (session *Session) GetStreamsSummary(getStreamsSummaryInputType *GetStreamsSummaryInputType) (*GetStreamsSummaryOutputType, error) {
 	var out GetStreamsSummaryOutputType
-	err := session.Request("GET", "/streams/summary", &getStreamsSummaryInputType, &out)
+	err := session.request("GET", "/streams/summary", &getStreamsSummaryInputType, &out)
 	if err != nil {
 		return nil, err
 	}
