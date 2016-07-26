@@ -41,7 +41,7 @@ type GetChannelOutputType ChannelType
 // GetChannel -
 func (session *Session) GetChannel(getChannelInputType *GetChannelInputType) (*GetChannelOutputType, error) {
 	var out GetChannelOutputType
-	err := session.Request("GET", "/channels/"+getChannelInputType.Channel, nil, &out)
+	err := session.request("GET", "/channels/"+getChannelInputType.Channel, nil, &out)
 	if err != nil {
 		return nil, err
 	}
@@ -62,7 +62,7 @@ type GetChannelTeamsOutputType struct {
 // GetChannelTeams -
 func (session *Session) GetChannelTeams(getChannelTeamsInputType *GetChannelTeamsInputType) (*GetChannelTeamsOutputType, error) {
 	var out GetChannelTeamsOutputType
-	err := session.Request("GET", "/channels/"+getChannelTeamsInputType.Channel+"/teams", nil, &out)
+	err := session.request("GET", "/channels/"+getChannelTeamsInputType.Channel+"/teams", nil, &out)
 	if err != nil {
 		return nil, err
 	}

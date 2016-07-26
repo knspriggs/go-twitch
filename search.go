@@ -21,7 +21,7 @@ type SearchChannelsOutputType struct {
 // SearchChannels -
 func (session *Session) SearchChannels(searchChannelsInputType *SearchChannelsInputType) (*SearchChannelsOutputType, error) {
 	var out SearchChannelsOutputType
-	err := session.Request("GET", "/search/channels", &searchChannelsInputType, &out)
+	err := session.request("GET", "/search/channels", &searchChannelsInputType, &out)
 	if err != nil {
 		return nil, err
 	}
@@ -46,7 +46,7 @@ type SearchStreamsOutputType struct {
 // SearchStreams -
 func (session *Session) SearchStreams(searchStreamsInputType *SearchStreamsInputType) (*SearchStreamsOutputType, error) {
 	var out SearchStreamsOutputType
-	err := session.Request("GET", "/search/streams", &searchStreamsInputType, &out)
+	err := session.request("GET", "/search/streams", &searchStreamsInputType, &out)
 	if err != nil {
 		return nil, err
 	}
@@ -69,7 +69,7 @@ type SearchGamesOutputType struct {
 // SearchGames -
 func (session *Session) SearchGames(searchGamesInputType *SearchGamesInputType) (*SearchGamesOutputType, error) {
 	var out SearchGamesOutputType
-	err := session.Request("GET", "/search/games", &searchGamesInputType, &out)
+	err := session.request("GET", "/search/games", &searchGamesInputType, &out)
 	if err != nil {
 		return nil, err
 	}

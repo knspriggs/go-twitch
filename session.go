@@ -26,18 +26,8 @@ func NewSession(url string, versionHeader string) (*Session, error) {
 	}, nil
 }
 
-// Request -
-func (session *Session) Request(method string, url string, q interface{}, r interface{}) error {
-	var queryString string
-	if q != nil {
-		query, err := query.Values(q)
-		if err != nil {
-			return err
-		}
-		queryString = "?" + query.Encode()
-	} else {
-		queryString = ""
-	}
+func (session *Session) request(method string, url string, q interface{}, r interface{}) error {
+	queryString, err := buildQueryString(q)
 	request, requestError := http.NewRequest(method, session.URL+url+queryString, bytes.NewBuffer([]byte("")))
 	if requestError != nil {
 		return requestError
@@ -60,4 +50,15 @@ func (session *Session) Request(method string, url string, q interface{}, r inte
 	}
 
 	return nil
+}
+
+func buildQueryString(q interface{}) (string, error) {
+	if q != nil {
+		query, err := query.Values(q)
+		if err != nil {
+			return "", err
+		}
+		return "?" + query.Encode(), nil
+	}
+	return "", nil
 }
