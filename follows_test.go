@@ -1,16 +1,21 @@
 package twitch
 
 import (
+	"os"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
 )
 
+func init() {
+	clientID = os.Getenv("CLIENT_ID")
+}
+
 func TestGetChannelFollows(t *testing.T) {
 	req := &GetChannelFollowsInputType{
 		Channel: "knspriggs",
 	}
-	session, err := NewSession(DefaultURL, APIV3Header)
+	session, err := NewSession(DefaultURL, APIV3Header, clientID)
 	resp, err := session.GetChannelFollows(req)
 	assert.Nil(t, err)
 	if assert.NotNil(t, resp) {
@@ -22,7 +27,7 @@ func TestGetUserFollows(t *testing.T) {
 	req := &GetUserFollowsInputType{
 		User: "knspriggs",
 	}
-	session, err := NewSession(DefaultURL, APIV3Header)
+	session, err := NewSession(DefaultURL, APIV3Header, clientID)
 	resp, err := session.GetUserFollows(req)
 	assert.Nil(t, err)
 	if assert.NotNil(t, resp) {
@@ -35,7 +40,7 @@ func TestGetUserFollowsChannelValid(t *testing.T) {
 		User:    "knspriggs",
 		Channel: "nightblue3",
 	}
-	session, err := NewSession(DefaultURL, APIV3Header)
+	session, err := NewSession(DefaultURL, APIV3Header, clientID)
 	resp, err := session.GetUserFollowsChannel(req)
 	assert.Nil(t, err)
 	if assert.NotNil(t, resp) {
@@ -49,7 +54,7 @@ func TestGetUserFollowsChannelInvalid(t *testing.T) {
 		User:    "knspriggs",
 		Channel: "sdfknaosfg",
 	}
-	session, err := NewSession(DefaultURL, APIV3Header)
+	session, err := NewSession(DefaultURL, APIV3Header, clientID)
 	resp, err := session.GetUserFollowsChannel(req)
 	assert.Nil(t, err)
 	assert.False(t, resp.Follows)
