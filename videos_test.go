@@ -1,14 +1,19 @@
 package twitch
 
 import (
+	"os"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
 )
 
+func init() {
+	clientID = os.Getenv("CLIENT_ID")
+}
+
 func TestGetTopVideos(t *testing.T) {
 	req := &GetTopVideosInputType{}
-	session, err := NewSession(DefaultURL, APIV3Header)
+	session, err := NewSession(DefaultURL, APIV3Header, clientID)
 	resp, err := session.GetTopVideos(req)
 	assert.Nil(t, err)
 	if assert.NotNil(t, resp) {
@@ -20,7 +25,7 @@ func TestGetChannelVideos(t *testing.T) {
 	req := &GetChannelVideosInputType{
 		Channel: "Nightblue3",
 	}
-	session, err := NewSession(DefaultURL, APIV3Header)
+	session, err := NewSession(DefaultURL, APIV3Header, clientID)
 	resp, err := session.GetChannelVideos(req)
 	assert.Nil(t, err)
 	if assert.NotNil(t, resp) {

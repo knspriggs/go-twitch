@@ -1,13 +1,18 @@
 package twitch
 
 import (
+	"os"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
 )
 
+func init() {
+	clientID = os.Getenv("CLIENT_ID")
+}
+
 func TestGetAllTeams(t *testing.T) {
-	session, err := NewSession(DefaultURL, APIV3Header)
+	session, err := NewSession(DefaultURL, APIV3Header, clientID)
 	resp, err := session.GetAllTeams()
 	assert.Nil(t, err)
 	if assert.NotNil(t, resp) {
@@ -19,7 +24,7 @@ func TestGetTeam(t *testing.T) {
 	req := &GetTeamInputType{
 		Team: "tckt",
 	}
-	session, err := NewSession(DefaultURL, APIV3Header)
+	session, err := NewSession(DefaultURL, APIV3Header, clientID)
 	resp, err := session.GetTeam(req)
 	assert.Nil(t, err)
 	if assert.NotNil(t, resp) {

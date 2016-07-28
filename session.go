@@ -3,6 +3,7 @@ package twitch
 import (
 	"bytes"
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"net/http"
 
@@ -14,15 +15,17 @@ type Session struct {
 	Client        *http.Client
 	URL           string
 	VersionHeader string
+	ClientID      string
 }
 
 // NewSession -
-func NewSession(url string, versionHeader string) (*Session, error) {
+func NewSession(url string, versionHeader string, clientID string) (*Session, error) {
 	client := &http.Client{}
 	return &Session{
 		Client:        client,
 		URL:           url,
 		VersionHeader: versionHeader,
+		ClientID:      clientID,
 	}, nil
 }
 
@@ -33,6 +36,7 @@ func (session *Session) request(method string, url string, q interface{}, r inte
 		return requestError
 	}
 	request.Header.Add("Accept", APIV3Header)
+	request.Header.Add("Client-ID", session.ClientID)
 
 	response, responseError := session.Client.Do(request)
 	if responseError != nil {
@@ -49,6 +53,25 @@ func (session *Session) request(method string, url string, q interface{}, r inte
 		return err
 	}
 
+	return nil
+}
+
+type rootResponseType struct {
+	Links      map[string]string      `json:"links"`
+	Identified bool                   `json:"identified"`
+	Token      map[string]interface{} `json:"token"`
+}
+
+// CheckClientID -
+func (session *Session) CheckClientID() error {
+	var rrt rootResponseType
+	err := session.request("GET", "/", nil, &rrt)
+	if err != nil {
+		return err
+	}
+	if rrt.Identified != true {
+		return fmt.Errorf("Session not identified, please check your client-id")
+	}
 	return nil
 }
 
