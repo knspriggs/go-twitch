@@ -1,9 +1,10 @@
-package twitch
+package twitch_test
 
 import (
 	"os"
 	"testing"
 
+	twitch "github.com/knspriggs/go-twitch"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -12,10 +13,10 @@ func init() {
 }
 
 func TestSearchChannels(t *testing.T) {
-	req := &SearchChannelsInputType{
+	req := &twitch.SearchChannelsInputType{
 		Query: "knspriggs",
 	}
-	session, err := NewSession(DefaultURL, APIV3Header, clientID)
+	session, err := twitch.NewSession(DefaultURL, twitch.APIV3Header, clientID)
 	resp, err := session.SearchChannels(req)
 	assert.Nil(t, err)
 	if assert.NotNil(t, resp) {
@@ -24,10 +25,10 @@ func TestSearchChannels(t *testing.T) {
 }
 
 func TestSearchChannelsEmpty(t *testing.T) {
-	req := &SearchChannelsInputType{
+	req := &twitch.SearchChannelsInputType{
 		Query: "agjansa",
 	}
-	session, err := NewSession(DefaultURL, APIV3Header, clientID)
+	session, err := twitch.NewSession(DefaultURL, twitch.APIV3Header, clientID)
 	resp, err := session.SearchChannels(req)
 	assert.Nil(t, err)
 	if assert.NotNil(t, resp) {
@@ -36,10 +37,10 @@ func TestSearchChannelsEmpty(t *testing.T) {
 }
 
 func TestSearchStreams(t *testing.T) {
-	req := &SearchStreamsInputType{
+	req := &twitch.SearchStreamsInputType{
 		Query: "League",
 	}
-	session, err := NewSession(DefaultURL, APIV3Header, clientID)
+	session, err := twitch.NewSession(DefaultURL, twitch.APIV3Header, clientID)
 	resp, err := session.SearchStreams(req)
 	assert.Nil(t, err)
 	if assert.NotNil(t, resp) {
@@ -48,10 +49,10 @@ func TestSearchStreams(t *testing.T) {
 }
 
 func TestSearchStreamsEmpty(t *testing.T) {
-	req := &SearchStreamsInputType{
+	req := &twitch.SearchStreamsInputType{
 		Query: "agjansa",
 	}
-	session, err := NewSession(DefaultURL, APIV3Header, clientID)
+	session, err := twitch.NewSession(DefaultURL, twitch.APIV3Header, clientID)
 	resp, err := session.SearchStreams(req)
 	assert.Nil(t, err)
 	if assert.NotNil(t, resp) {
@@ -60,12 +61,12 @@ func TestSearchStreamsEmpty(t *testing.T) {
 }
 
 func TestSearchGames(t *testing.T) {
-	req := &SearchGamesInputType{
+	req := &twitch.SearchGamesInputType{
 		Query: "League",
 		Type:  "suggest",
 		Live:  true,
 	}
-	session, err := NewSession(DefaultURL, APIV3Header, clientID)
+	session, err := twitch.NewSession(DefaultURL, twitch.APIV3Header, clientID)
 	resp, err := session.SearchGames(req)
 	assert.Nil(t, err)
 	if assert.NotNil(t, resp) {
@@ -74,10 +75,10 @@ func TestSearchGames(t *testing.T) {
 }
 
 func TestSearchGamesEmpty(t *testing.T) {
-	req := &SearchGamesInputType{
+	req := &twitch.SearchGamesInputType{
 		Query: "agjansa",
 	}
-	session, err := NewSession(DefaultURL, APIV3Header, clientID)
+	session, err := twitch.NewSession(DefaultURL, twitch.APIV3Header, clientID)
 	resp, err := session.SearchGames(req)
 	assert.Nil(t, err)
 	if assert.NotNil(t, resp) {

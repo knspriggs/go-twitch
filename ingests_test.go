@@ -1,9 +1,10 @@
-package twitch
+package twitch_test
 
 import (
 	"os"
 	"testing"
 
+	twitch "github.com/knspriggs/go-twitch"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -12,7 +13,7 @@ func init() {
 }
 
 func TestGetIngests(t *testing.T) {
-	session, err := NewSession(DefaultURL, APIV3Header, clientID)
+	session, err := twitch.NewSession(DefaultURL, twitch.APIV3Header, clientID)
 	resp, err := session.GetIngests()
 	assert.Nil(t, err)
 	if assert.NotNil(t, resp) {

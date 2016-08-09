@@ -1,6 +1,7 @@
 package twitch
 
 import (
+	"net/url"
 	"os"
 	"testing"
 
@@ -8,9 +9,15 @@ import (
 )
 
 var clientID string
+var DefaultURL *url.URL
 
 func init() {
 	clientID = os.Getenv("CLIENT_ID")
+	DefaultURL = &url.URL{
+		Scheme: "https",
+		Host:   "api.twitch.tv",
+		Path:   "kraken",
+	}
 }
 
 func TestNewSession(t *testing.T) {
