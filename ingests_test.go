@@ -13,7 +13,7 @@ func init() {
 }
 
 func TestGetIngests(t *testing.T) {
-	session, err := twitch.NewSession(DefaultURL, twitch.APIV3Header, clientID)
+	session, err := twitch.NewSession(twitch.NewSessionInput{ClientID: clientID})
 	resp, err := session.GetIngests()
 	assert.Nil(t, err)
 	if assert.NotNil(t, resp) {

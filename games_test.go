@@ -17,7 +17,7 @@ func TestGetTopGames(t *testing.T) {
 		Limit:  10,
 		Offset: 0,
 	}
-	session, err := twitch.NewSession(DefaultURL, twitch.APIV3Header, clientID)
+	session, err := twitch.NewSession(twitch.NewSessionInput{ClientID: clientID})
 	resp, err := session.GetTopGames(req)
 	assert.Nil(t, err)
 	if assert.NotNil(t, resp) {

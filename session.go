@@ -11,6 +11,13 @@ import (
 	"github.com/google/go-querystring/query"
 )
 
+// NewSessionInput is the input struct for creating a new session
+type NewSessionInput struct {
+	URL           *url.URL
+	VersionHeader string
+	ClientID      string // required
+}
+
 // Session represents a persistent connection to Twitch
 type Session struct {
 	Client        *http.Client
@@ -26,12 +33,24 @@ type rootResponse struct {
 }
 
 // NewSession creates and returns a new Twtich session
-func NewSession(url *url.URL, versionHeader string, clientID string) (*Session, error) {
+func NewSession(input NewSessionInput) (*Session, error) {
+	if input.ClientID == "" {
+		return nil, fmt.Errorf("A clientID must be supplied")
+	}
+
+	if input.URL == nil {
+		input.URL = DefaultURL
+	}
+
+	if input.VersionHeader == "" {
+		input.VersionHeader = APIV3Header
+	}
+
 	return &Session{
 		Client:        &http.Client{},
-		URL:           url,
-		VersionHeader: versionHeader,
-		ClientID:      clientID,
+		URL:           input.URL,
+		VersionHeader: input.VersionHeader,
+		ClientID:      input.ClientID,
 	}, nil
 }
 

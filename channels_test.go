@@ -18,7 +18,7 @@ func TestGetChannel(t *testing.T) {
 	req := &twitch.GetChannelInputType{
 		Channel: "Nightblue3",
 	}
-	session, err := twitch.NewSession(DefaultURL, twitch.APIV3Header, clientID)
+	session, err := twitch.NewSession(twitch.NewSessionInput{ClientID: clientID})
 	resp, err := session.GetChannel(req)
 	assert.Nil(t, err)
 	if assert.NotNil(t, resp) {
@@ -30,7 +30,7 @@ func TestGetChannelTeams(t *testing.T) {
 	req := &twitch.GetChannelTeamsInputType{
 		Channel: "Nightblue3",
 	}
-	session, err := twitch.NewSession(DefaultURL, twitch.APIV3Header, clientID)
+	session, err := twitch.NewSession(twitch.NewSessionInput{ClientID: clientID})
 	resp, err := session.GetChannelTeams(req)
 	assert.Nil(t, err)
 	if assert.NotNil(t, resp) {

@@ -15,7 +15,8 @@ func TestGetStreamByChannel(t *testing.T) {
 	req := &GetStreamByChannelInputType{
 		Channel: "#knspriggs",
 	}
-	session, err := NewSession(DefaultURL, APIV3Header, clientID)
+	session, err := NewSession(NewSessionInput{ClientID: clientID})
+	assert.Nil(t, err)
 	resp, err := session.GetStreamByChannel(req)
 	assert.Nil(t, err)
 	if assert.NotNil(t, resp) {
@@ -25,7 +26,7 @@ func TestGetStreamByChannel(t *testing.T) {
 
 func TestGetStreamsWithoutRequestParams(t *testing.T) {
 	req := &GetStreamsInputType{}
-	session, err := NewSession(DefaultURL, APIV3Header, clientID)
+	session, err := NewSession(NewSessionInput{ClientID: clientID})
 	resp, err := session.GetStream(req)
 	assert.Nil(t, err)
 	if assert.NotNil(t, resp) {
@@ -37,7 +38,7 @@ func TestGetStreamsWithPartialRequestParamsAndDefaults(t *testing.T) {
 	req := &GetStreamsInputType{
 		Game: "Counter-Strike: Global Offensive",
 	}
-	session, err := NewSession(DefaultURL, APIV3Header, clientID)
+	session, err := NewSession(NewSessionInput{ClientID: clientID})
 	resp, err := session.GetStream(req)
 	assert.Nil(t, err)
 	if assert.NotNil(t, resp) {
@@ -52,7 +53,7 @@ func TestGetStreamsWithPartialRequestParams(t *testing.T) {
 		Offset:     1,
 		StreamType: "live",
 	}
-	session, err := NewSession(DefaultURL, APIV3Header, clientID)
+	session, err := NewSession(NewSessionInput{ClientID: clientID})
 	resp, err := session.GetStream(req)
 	assert.Nil(t, err)
 	if assert.NotNil(t, resp) {
@@ -62,7 +63,7 @@ func TestGetStreamsWithPartialRequestParams(t *testing.T) {
 
 func TestGetFeaturedStreams(t *testing.T) {
 	req := &GetFeaturedStreamsInputType{}
-	session, err := NewSession(DefaultURL, APIV3Header, clientID)
+	session, err := NewSession(NewSessionInput{ClientID: clientID})
 	resp, err := session.GetFeaturedStreams(req)
 	assert.Nil(t, err)
 	if assert.NotNil(t, resp) {
@@ -74,7 +75,7 @@ func TestGetStreamsSummaryWithGame(t *testing.T) {
 	req := &GetStreamsSummaryInputType{
 		Game: "Counter-Strike: Global Offensive",
 	}
-	session, err := NewSession(DefaultURL, APIV3Header, clientID)
+	session, err := NewSession(NewSessionInput{ClientID: clientID})
 	resp, err := session.GetStreamsSummary(req)
 	assert.Nil(t, err)
 	if assert.NotNil(t, resp) {
@@ -84,7 +85,7 @@ func TestGetStreamsSummaryWithGame(t *testing.T) {
 
 func TestGetStreamsSummaryWithoutGame(t *testing.T) {
 	req := &GetStreamsSummaryInputType{}
-	session, err := NewSession(DefaultURL, APIV3Header, clientID)
+	session, err := NewSession(NewSessionInput{ClientID: clientID})
 	resp, err := session.GetStreamsSummary(req)
 	assert.Nil(t, err)
 	if assert.NotNil(t, resp) {

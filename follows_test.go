@@ -16,7 +16,7 @@ func TestGetChannelFollows(t *testing.T) {
 	req := &twitch.GetChannelFollowsInputType{
 		Channel: "knspriggs",
 	}
-	session, err := twitch.NewSession(DefaultURL, twitch.APIV3Header, clientID)
+	session, err := twitch.NewSession(twitch.NewSessionInput{ClientID: clientID})
 	resp, err := session.GetChannelFollows(req)
 	assert.Nil(t, err)
 	if assert.NotNil(t, resp) {
@@ -28,7 +28,7 @@ func TestGetUserFollows(t *testing.T) {
 	req := &twitch.GetUserFollowsInputType{
 		User: "knspriggs",
 	}
-	session, err := twitch.NewSession(DefaultURL, twitch.APIV3Header, clientID)
+	session, err := twitch.NewSession(twitch.NewSessionInput{ClientID: clientID})
 	resp, err := session.GetUserFollows(req)
 	assert.Nil(t, err)
 	if assert.NotNil(t, resp) {
@@ -41,7 +41,7 @@ func TestGetUserFollowsChannelValid(t *testing.T) {
 		User:    "knspriggs",
 		Channel: "nightblue3",
 	}
-	session, err := twitch.NewSession(DefaultURL, twitch.APIV3Header, clientID)
+	session, err := twitch.NewSession(twitch.NewSessionInput{ClientID: clientID})
 	resp, err := session.GetUserFollowsChannel(req)
 	assert.Nil(t, err)
 	if assert.NotNil(t, resp) {
@@ -55,7 +55,7 @@ func TestGetUserFollowsChannelInvalid(t *testing.T) {
 		User:    "knspriggs",
 		Channel: "sdfknaosfg",
 	}
-	session, err := twitch.NewSession(DefaultURL, twitch.APIV3Header, clientID)
+	session, err := twitch.NewSession(twitch.NewSessionInput{ClientID: clientID})
 	resp, err := session.GetUserFollowsChannel(req)
 	assert.Nil(t, err)
 	assert.False(t, resp.Follows)

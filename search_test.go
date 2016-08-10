@@ -16,7 +16,7 @@ func TestSearchChannels(t *testing.T) {
 	req := &twitch.SearchChannelsInputType{
 		Query: "knspriggs",
 	}
-	session, err := twitch.NewSession(DefaultURL, twitch.APIV3Header, clientID)
+	session, err := twitch.NewSession(twitch.NewSessionInput{ClientID: clientID})
 	resp, err := session.SearchChannels(req)
 	assert.Nil(t, err)
 	if assert.NotNil(t, resp) {
@@ -28,7 +28,7 @@ func TestSearchChannelsEmpty(t *testing.T) {
 	req := &twitch.SearchChannelsInputType{
 		Query: "agjansa",
 	}
-	session, err := twitch.NewSession(DefaultURL, twitch.APIV3Header, clientID)
+	session, err := twitch.NewSession(twitch.NewSessionInput{ClientID: clientID})
 	resp, err := session.SearchChannels(req)
 	assert.Nil(t, err)
 	if assert.NotNil(t, resp) {
@@ -40,7 +40,7 @@ func TestSearchStreams(t *testing.T) {
 	req := &twitch.SearchStreamsInputType{
 		Query: "League",
 	}
-	session, err := twitch.NewSession(DefaultURL, twitch.APIV3Header, clientID)
+	session, err := twitch.NewSession(twitch.NewSessionInput{ClientID: clientID})
 	resp, err := session.SearchStreams(req)
 	assert.Nil(t, err)
 	if assert.NotNil(t, resp) {
@@ -52,7 +52,7 @@ func TestSearchStreamsEmpty(t *testing.T) {
 	req := &twitch.SearchStreamsInputType{
 		Query: "agjansa",
 	}
-	session, err := twitch.NewSession(DefaultURL, twitch.APIV3Header, clientID)
+	session, err := twitch.NewSession(twitch.NewSessionInput{ClientID: clientID})
 	resp, err := session.SearchStreams(req)
 	assert.Nil(t, err)
 	if assert.NotNil(t, resp) {
@@ -66,7 +66,7 @@ func TestSearchGames(t *testing.T) {
 		Type:  "suggest",
 		Live:  true,
 	}
-	session, err := twitch.NewSession(DefaultURL, twitch.APIV3Header, clientID)
+	session, err := twitch.NewSession(twitch.NewSessionInput{ClientID: clientID})
 	resp, err := session.SearchGames(req)
 	assert.Nil(t, err)
 	if assert.NotNil(t, resp) {
@@ -78,7 +78,7 @@ func TestSearchGamesEmpty(t *testing.T) {
 	req := &twitch.SearchGamesInputType{
 		Query: "agjansa",
 	}
-	session, err := twitch.NewSession(DefaultURL, twitch.APIV3Header, clientID)
+	session, err := twitch.NewSession(twitch.NewSessionInput{ClientID: clientID})
 	resp, err := session.SearchGames(req)
 	assert.Nil(t, err)
 	if assert.NotNil(t, resp) {
