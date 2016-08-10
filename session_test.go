@@ -19,7 +19,7 @@ func TestNewSession(t *testing.T) {
 		t.Skip()
 	}
 
-	session, err := NewSession(DefaultURL, APIV3Header, clientID)
+	session, err := NewSession(NewSessionInput{ClientID: clientID})
 	err = session.CheckClientID()
 	assert.Nil(t, err)
 }

@@ -12,7 +12,7 @@ func init() {
 }
 
 func TestGetAllTeams(t *testing.T) {
-	session, err := NewSession(DefaultURL, APIV3Header, clientID)
+	session, err := NewSession(NewSessionInput{ClientID: clientID})
 	resp, err := session.GetAllTeams()
 	assert.Nil(t, err)
 	if assert.NotNil(t, resp) {
@@ -24,7 +24,7 @@ func TestGetTeam(t *testing.T) {
 	req := &GetTeamInputType{
 		Team: "tckt",
 	}
-	session, err := NewSession(DefaultURL, APIV3Header, clientID)
+	session, err := NewSession(NewSessionInput{ClientID: clientID})
 	resp, err := session.GetTeam(req)
 	assert.Nil(t, err)
 	if assert.NotNil(t, resp) {

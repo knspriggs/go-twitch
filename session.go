@@ -6,32 +6,57 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"net/url"
 
 	"github.com/google/go-querystring/query"
 )
 
-// Session -
+// NewSessionInput is the input struct for creating a new session
+type NewSessionInput struct {
+	URL           *url.URL
+	VersionHeader string
+	ClientID      string // required
+}
+
+// Session represents a persistent connection to Twitch
 type Session struct {
 	Client        *http.Client
-	URL           string
+	URL           *url.URL
 	VersionHeader string
 	ClientID      string
 }
 
-// NewSession -
-func NewSession(url string, versionHeader string, clientID string) (*Session, error) {
-	client := &http.Client{}
+type rootResponse struct {
+	Links      map[string]string      `json:"links"`
+	Identified bool                   `json:"identified"`
+	Token      map[string]interface{} `json:"token"`
+}
+
+// NewSession creates and returns a new Twtich session
+func NewSession(input NewSessionInput) (*Session, error) {
+	if input.ClientID == "" {
+		return nil, fmt.Errorf("A clientID must be supplied")
+	}
+
+	if input.URL == nil {
+		input.URL = DefaultURL
+	}
+
+	if input.VersionHeader == "" {
+		input.VersionHeader = APIV3Header
+	}
+
 	return &Session{
-		Client:        client,
-		URL:           url,
-		VersionHeader: versionHeader,
-		ClientID:      clientID,
+		Client:        &http.Client{},
+		URL:           input.URL,
+		VersionHeader: input.VersionHeader,
+		ClientID:      input.ClientID,
 	}, nil
 }
 
 func (session *Session) request(method string, url string, q interface{}, r interface{}) error {
 	queryString, err := buildQueryString(q)
-	request, requestError := http.NewRequest(method, session.URL+url+queryString, bytes.NewBuffer([]byte("")))
+	request, requestError := http.NewRequest(method, session.URL.String()+url+queryString, bytes.NewBuffer([]byte("")))
 	if requestError != nil {
 		return requestError
 	}
@@ -44,34 +69,31 @@ func (session *Session) request(method string, url string, q interface{}, r inte
 	}
 
 	body, err := ioutil.ReadAll(response.Body)
-	response.Body.Close()
 	if err != nil {
 		return err
 	}
-	err = json.Unmarshal([]byte(body), r)
-	if err != nil {
+	response.Body.Close()
+
+	if err := json.Unmarshal([]byte(body), r); err != nil {
 		return err
 	}
 
 	return nil
 }
 
-type rootResponseType struct {
-	Links      map[string]string      `json:"links"`
-	Identified bool                   `json:"identified"`
-	Token      map[string]interface{} `json:"token"`
-}
-
-// CheckClientID -
+// CheckClientID ensures that the client ID is correct.  This is done by
+// performing a get to the root of twitch and confirming that the response's
+// identified field is true
 func (session *Session) CheckClientID() error {
-	var rrt rootResponseType
-	err := session.request("GET", "/", nil, &rrt)
-	if err != nil {
+	var rr rootResponse
+	if err := session.request("GET", "/", nil, &rr); err != nil {
 		return err
 	}
-	if rrt.Identified != true {
+
+	if !rr.Identified {
 		return fmt.Errorf("Session not identified, please check your client-id")
 	}
+
 	return nil
 }
 
