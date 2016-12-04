@@ -20,19 +20,14 @@ func TestSearchChannels(t *testing.T) {
 	resp, err := session.SearchChannels(req)
 	assert.Nil(t, err)
 	if assert.NotNil(t, resp) {
-		assert.Equal(t, resp.Total, 1)
-	}
-}
-
-func TestSearchChannelsEmpty(t *testing.T) {
-	req := &twitch.SearchChannelsInputType{
-		Query: "agjansa",
-	}
-	session, err := twitch.NewSession(twitch.NewSessionInput{ClientID: clientID})
-	resp, err := session.SearchChannels(req)
-	assert.Nil(t, err)
-	if assert.NotNil(t, resp) {
-		assert.Equal(t, resp.Total, 0)
+		assert.True(t, resp.Total >= 1)
+		found := false
+		for _, channel := range resp.Channels {
+			if channel.DisplayName == "Knspriggs" {
+				found = true
+			}
+		}
+		assert.True(t, found == true)
 	}
 }
 

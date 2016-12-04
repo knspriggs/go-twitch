@@ -1,14 +1,3 @@
-# go-twitch
-
-### Test
-```
-CLIENT_ID="<my client ID>" go test -v -cover
-```
-
-### Usage
-
-Example File:
-```go
 package main
 
 import (
@@ -42,8 +31,3 @@ func main() {
   }
   log.Printf("Resp: \n%#v", resp)
 }
-```
-
-Run: `CLIENT_ID="<my client ID>" go run example/main.go`
-
-To get a client ID see the documentation from the Twitch API https://github.com/justintv/Twitch-API/blob/master/authentication.md
