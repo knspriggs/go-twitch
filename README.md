@@ -32,8 +32,8 @@ func main() {
 
   searchChannelsInput := twitch.SearchChannelsInputType{
     Query: "knspriggs",   // see https://github.com/justintv/Twitch-API/blob/master/v3_resources/search.md for query syntax
-    Limit: 2,             //optional
-    Offset: 0,            //optional
+    Limit: 2,             // optional
+    Offset: 0,            // optional
   }
 
   resp, err := twitchSession.SearchChannels(&searchChannelsInput)
@@ -44,6 +44,8 @@ func main() {
 }
 ```
 
-Run: `CLIENT_ID="<my client ID>" go run example/main.go`
+```
+CLIENT_ID="<my client ID>" go run example/main.go
+```
 
 To get a client ID see the documentation from the Twitch API https://github.com/justintv/Twitch-API/blob/master/authentication.md
