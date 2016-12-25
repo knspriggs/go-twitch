@@ -32,6 +32,7 @@ func TestSearchChannels(t *testing.T) {
 }
 
 func TestSearchStreams(t *testing.T) {
+	t.Skip()
 	req := &twitch.SearchStreamsInputType{
 		Query: "League",
 	}

@@ -1,4 +1,7 @@
+[![Build Status](https://travis-ci.com/knspriggs/go-twitch.svg?token=zZCoL2DxeY3FuDqHfbp7&branch=add-travisci-yaml)](https://travis-ci.com/knspriggs/go-twitch)
+
 # go-twitch
+
 
 ### Test
 ```
