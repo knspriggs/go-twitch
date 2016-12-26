@@ -1,6 +1,6 @@
 package twitch
 
-// FollowsChannelType -
+// FollowsChannelType - struct describing a following channel
 type FollowsChannelType struct {
 	CreatedAt     string            `json:"created_at"`
 	Notifications bool              `json:"notifications"`
@@ -8,7 +8,7 @@ type FollowsChannelType struct {
 	Links         map[string]string `json:"_links"`
 }
 
-// FollowsUserType -
+// FollowsUserType - struct describing a following user
 type FollowsUserType struct {
 	CreatedAt     string            `json:"created_at"`
 	Notifications bool              `json:"notifications"`
@@ -20,7 +20,7 @@ type FollowsUserType struct {
 // Implementation and their respective request/response types
 //
 
-// GetChannelFollowsInputType -
+// GetChannelFollowsInputType - request type for querying users following a channel
 type GetChannelFollowsInputType struct {
 	Channel   string
 	Limit     int    `url:"limit,omitempty"`
@@ -28,7 +28,7 @@ type GetChannelFollowsInputType struct {
 	Direction string `url:"direction,omitempty"`
 }
 
-// GetChannelFollowsOutputType -
+// GetChannelFollowsOutputType - response type containing users following a channel
 type GetChannelFollowsOutputType struct {
 	Total   int               `json:"_total"`
 	Cursor  string            `json:"_cursor"`
@@ -36,7 +36,7 @@ type GetChannelFollowsOutputType struct {
 	Links   map[string]string `json:"_links"`
 }
 
-// GetChannelFollows -
+// GetChannelFollows - returns the users who follow the specified channel
 func (session *Session) GetChannelFollows(getChannelFollowsInputType *GetChannelFollowsInputType) (*GetChannelFollowsOutputType, error) {
 	var out GetChannelFollowsOutputType
 	err := session.request("GET", "/channels/"+getChannelFollowsInputType.Channel+"/follows", &getChannelFollowsInputType, &out)
@@ -46,7 +46,7 @@ func (session *Session) GetChannelFollows(getChannelFollowsInputType *GetChannel
 	return &out, nil
 }
 
-// GetUserFollowsInputType -
+// GetUserFollowsInputType - request type for querying what channels a user follows
 type GetUserFollowsInputType struct {
 	User      string
 	Limit     int    `url:"limit,omitempty"`
@@ -54,7 +54,7 @@ type GetUserFollowsInputType struct {
 	SortyBy   string `url:"sortby,omitempty"`
 }
 
-// GetUserFollowsOutputType -
+// GetUserFollowsOutputType - response type containing channels a user follows
 type GetUserFollowsOutputType struct {
 	Total   int                  `json:"_total"`
 	Cursor  string               `json:"_cursor"`
@@ -62,7 +62,7 @@ type GetUserFollowsOutputType struct {
 	Links   map[string]string    `json:"_links"`
 }
 
-// GetUserFollows -
+// GetUserFollows - returns the channels that a specified user follows
 func (session *Session) GetUserFollows(getUserFollowsInputType *GetUserFollowsInputType) (*GetUserFollowsOutputType, error) {
 	var out GetUserFollowsOutputType
 	err := session.request("GET", "/users/"+getUserFollowsInputType.User+"/follows/channels", &getUserFollowsInputType, &out)
@@ -72,13 +72,13 @@ func (session *Session) GetUserFollows(getUserFollowsInputType *GetUserFollowsIn
 	return &out, nil
 }
 
-// GetUserFollowsChannelInputType -
+// GetUserFollowsChannelInputType - request type container user and channel
 type GetUserFollowsChannelInputType struct {
 	User    string
 	Channel string
 }
 
-// GetUserFollowsChannelOutputType -
+// GetUserFollowsChannelOutputType - response type container wether a user follows the spcified channel
 type GetUserFollowsChannelOutputType struct {
 	Follows       bool
 	CreatedAt     string            `json:"created_at"`
@@ -87,7 +87,7 @@ type GetUserFollowsChannelOutputType struct {
 	Links         map[string]string `json:"_links"`
 }
 
-// GetUserFollowsChannel -
+// GetUserFollowsChannel - returns wether a user follows the specified channel
 func (session *Session) GetUserFollowsChannel(getUserFollowsChannelInputType *GetUserFollowsChannelInputType) (*GetUserFollowsChannelOutputType, error) {
 	var out GetUserFollowsChannelOutputType
 	err := session.request("GET", "/users/"+getUserFollowsChannelInputType.User+"/follows/channels/"+getUserFollowsChannelInputType.Channel, nil, &out)

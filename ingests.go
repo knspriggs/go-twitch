@@ -1,6 +1,6 @@
 package twitch
 
-// IngestType -
+// IngestType - type described ingest endpoints for twitch
 type IngestType struct {
 	Name         string  `json:"name"`
 	Default      bool    `json:"default"`
@@ -13,13 +13,13 @@ type IngestType struct {
 // Implementation and their respective request/response types
 //
 
-// GetIngestsOutputType -
+// GetIngestsOutputType - contains an array of ingest types
 type GetIngestsOutputType struct {
 	Ingests []IngestType      `json:"ingests"`
 	Links   map[string]string `json:"_links"`
 }
 
-// GetIngests -
+// GetIngests - returns the ingest endpoints available for twitch
 func (session *Session) GetIngests() (*GetIngestsOutputType, error) {
 	var out GetIngestsOutputType
 	err := session.request("GET", "/ingests", nil, &out)

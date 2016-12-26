@@ -1,13 +1,13 @@
 package twitch
 
-// Game -
+// Game - describes a game on twitch
 type Game struct {
 	GameInfo GameInfo `json:"game"`
 	Viewers  int      `json:"viewers"`
 	Channels int      `json:"channels"`
 }
 
-// GameInfo -
+// GameInfo - details about the specific game
 type GameInfo struct {
 	Name        string            `json:"name"`
 	Box         map[string]string `json:"box"`
@@ -21,20 +21,20 @@ type GameInfo struct {
 // Implementation and their respective request/response types
 //
 
-// GetTopGamesInputType -
+// GetTopGamesInputType - request type for GetTopGames
 type GetTopGamesInputType struct {
 	Limit  int `url:"limit,omitempty"`
 	Offset int `url:"offset,omitempty"`
 }
 
-// GetTopGamesOutputType -
+// GetTopGamesOutputType - response type containing an array of games
 type GetTopGamesOutputType struct {
 	Links map[string]string `json:"_links"`
 	Total int               `json:"_total"`
 	Top   []Game            `json:"top"`
 }
 
-// GetTopGames -
+// GetTopGames - returns the top games at the time of request on twitch
 func (session *Session) GetTopGames(getTopeGamesInputType *GetTopGamesInputType) (*GetTopGamesOutputType, error) {
 	var out GetTopGamesOutputType
 	err := session.request("GET", "/games/top", &getTopeGamesInputType, &out)
