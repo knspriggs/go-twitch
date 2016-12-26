@@ -4,7 +4,7 @@ package twitch
 // Generic streams types
 //
 
-// VideoType -
+// VideoType - describes a saved or highlighted video on twitch
 type VideoType struct {
 	Title         string            `json:"title"`
 	Description   string            `json:"description"`
@@ -30,7 +30,7 @@ type VideoType struct {
 // Implementation and their respective request/response types
 //
 
-// GetTopVideosInputType -
+// GetTopVideosInputType - request paramaters for the GetTopVideos function
 type GetTopVideosInputType struct {
 	Game   string `url:"game,omitempty"`
 	Period string `url:"period,omitempty"`
@@ -38,13 +38,13 @@ type GetTopVideosInputType struct {
 	Offset int    `url:"offset,omitempty"`
 }
 
-// GetTopVideosOutputType -
+// GetTopVideosOutputType - contains a list of top videos
 type GetTopVideosOutputType struct {
 	Videos []VideoType       `json:"videos"`
 	Links  map[string]string `json:"_links"`
 }
 
-// GetTopVideos -
+// GetTopVideos - returns the top videos for a specified game
 func (session *Session) GetTopVideos(getTopVideosInputType *GetTopVideosInputType) (*GetTopVideosOutputType, error) {
 	var out GetTopVideosOutputType
 	err := session.request("GET", "/videos/top", &getTopVideosInputType, &out)
@@ -54,7 +54,7 @@ func (session *Session) GetTopVideos(getTopVideosInputType *GetTopVideosInputTyp
 	return &out, nil
 }
 
-// GetChannelVideosInputType -
+// GetChannelVideosInputType - request parameters for the GetChannelVideos function
 type GetChannelVideosInputType struct {
 	Channel    string
 	Broadcasts bool `url:"broadcasts,omitempty"`
@@ -63,14 +63,14 @@ type GetChannelVideosInputType struct {
 	Offset     int  `url:"offset,omitempty"`
 }
 
-// GetChannelVideosOutputType -
+// GetChannelVideosOutputType - contains a list of videos for the specified channel
 type GetChannelVideosOutputType struct {
 	Videos []VideoType       `json:"videos"`
 	Total  int               `json:"total"`
 	Links  map[string]string `json:"_links"`
 }
 
-// GetChannelVideos -
+// GetChannelVideos - returns the videos for the specified channel
 func (session *Session) GetChannelVideos(getChannelVideosInputType *GetChannelVideosInputType) (*GetChannelVideosOutputType, error) {
 	var out GetChannelVideosOutputType
 	err := session.request("GET", "/channels/"+getChannelVideosInputType.Channel+"/videos", &getChannelVideosInputType, &out)

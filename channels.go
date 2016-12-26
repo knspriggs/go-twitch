@@ -30,15 +30,15 @@ type ChannelType struct {
 // Implementation and their respective request/response types
 //
 
-// GetChannelInputType -
+// GetChannelInputType - input type for the GetChannel function
 type GetChannelInputType struct {
 	Channel string
 }
 
-// GetChannelOutputType -
+// GetChannelOutputType - returned type containing the channel
 type GetChannelOutputType ChannelType
 
-// GetChannel -
+// GetChannel - returns the specified channel
 func (session *Session) GetChannel(getChannelInputType *GetChannelInputType) (*GetChannelOutputType, error) {
 	var out GetChannelOutputType
 	err := session.request("GET", "/channels/"+getChannelInputType.Channel, nil, &out)
@@ -48,18 +48,18 @@ func (session *Session) GetChannel(getChannelInputType *GetChannelInputType) (*G
 	return &out, nil
 }
 
-// GetChannelTeamsInputType -
+// GetChannelTeamsInputType - input type for the GetChannelTeams function
 type GetChannelTeamsInputType struct {
 	Channel string
 }
 
-// GetChannelTeamsOutputType -
+// GetChannelTeamsOutputType - returned type container an array of teams
 type GetChannelTeamsOutputType struct {
 	Teams []TeamType        `json:"teams"`
 	Links map[string]string `json:"_links"`
 }
 
-// GetChannelTeams -
+// GetChannelTeams - - returns an array of the teams the specified channel belongs to
 func (session *Session) GetChannelTeams(getChannelTeamsInputType *GetChannelTeamsInputType) (*GetChannelTeamsOutputType, error) {
 	var out GetChannelTeamsOutputType
 	err := session.request("GET", "/channels/"+getChannelTeamsInputType.Channel+"/teams", nil, &out)

@@ -4,21 +4,21 @@ package twitch
 // Implementation and their respective request/response types
 //
 
-// SearchChannelsInputType -
+// SearchChannelsInputType - specifies the query parameters for a channel search
 type SearchChannelsInputType struct {
 	Query  string `url:"query,omitempty"`
 	Limit  int    `url:"limit,omitempty"`
 	Offset int    `url:"offset,omitempty"`
 }
 
-// SearchChannelsOutputType -
+// SearchChannelsOutputType - contains the results for a channel search
 type SearchChannelsOutputType struct {
 	Channels []ChannelType     `json:"channels"`
 	Total    int               `json:"_total"`
 	Links    map[string]string `json:"_links"`
 }
 
-// SearchChannels -
+// SearchChannels - returns channels matching the query
 func (session *Session) SearchChannels(searchChannelsInputType *SearchChannelsInputType) (*SearchChannelsOutputType, error) {
 	var out SearchChannelsOutputType
 	err := session.request("GET", "/search/channels", &searchChannelsInputType, &out)
@@ -28,7 +28,7 @@ func (session *Session) SearchChannels(searchChannelsInputType *SearchChannelsIn
 	return &out, nil
 }
 
-// SearchStreamsInputType -
+// SearchStreamsInputType - specifies the query parameters for a stream search
 type SearchStreamsInputType struct {
 	Query  string `url:"query,omitempty"`
 	Limit  int    `url:"limit,omitempty"`
@@ -36,14 +36,14 @@ type SearchStreamsInputType struct {
 	HLS    bool   `url:"hls,omitempty"`
 }
 
-// SearchStreamsOutputType -
+// SearchStreamsOutputType - contains the results for a stream search
 type SearchStreamsOutputType struct {
 	Streams []StreamType      `json:"streams"`
 	Total   int               `json:"_total"`
 	Links   map[string]string `json:"_links"`
 }
 
-// SearchStreams -
+// SearchStreams - returns streams matching the query
 func (session *Session) SearchStreams(searchStreamsInputType *SearchStreamsInputType) (*SearchStreamsOutputType, error) {
 	var out SearchStreamsOutputType
 	err := session.request("GET", "/search/streams", &searchStreamsInputType, &out)
@@ -53,20 +53,20 @@ func (session *Session) SearchStreams(searchStreamsInputType *SearchStreamsInput
 	return &out, nil
 }
 
-// SearchGamesInputType -
+// SearchGamesInputType - specifies the query parameters for a game search
 type SearchGamesInputType struct {
 	Query string `url:"query,omitempty"`
 	Type  string `url:"type,omitempty"`
 	Live  bool   `url:"live,omitempty"`
 }
 
-// SearchGamesOutputType -
+// SearchGamesOutputType - contains the results for a game search
 type SearchGamesOutputType struct {
 	Games []StreamType      `json:"games"`
 	Links map[string]string `json:"_links"`
 }
 
-// SearchGames -
+// SearchGames - returns games matching the query
 func (session *Session) SearchGames(searchGamesInputType *SearchGamesInputType) (*SearchGamesOutputType, error) {
 	var out SearchGamesOutputType
 	err := session.request("GET", "/search/games", &searchGamesInputType, &out)

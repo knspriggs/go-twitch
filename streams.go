@@ -4,7 +4,7 @@ package twitch
 // Generic streams types
 //
 
-// StreamType -
+// StreamType - describes a stream
 type StreamType struct {
 	Game        string            `json:"game"`
 	Viewers     int               `json:"viewers"`
@@ -19,7 +19,7 @@ type StreamType struct {
 	Links       map[string]string `json:"_links"`
 }
 
-// FeaturedType -
+// FeaturedType - describes the relationship a stream has if it is featured
 type FeaturedType struct {
 	Image     string     `json:"image"`
 	Text      string     `json:"text"`
@@ -33,7 +33,7 @@ type FeaturedType struct {
 // Implementation and their respective request/response types
 //
 
-// GetStreamsInputType -
+// GetStreamsInputType - request paramaters for the GetStream function
 type GetStreamsInputType struct {
 	Game       string `url:"game,omitempty"`
 	Channel    string `url:"channel,omitempty"`
@@ -44,14 +44,14 @@ type GetStreamsInputType struct {
 	Language   string `url:"language,omitempty"`
 }
 
-// GetStreamsOutputType -
+// GetStreamsOutputType - response for the GetStream function
 type GetStreamsOutputType struct {
 	Total   int               `json:"_total"`
 	Streams []StreamType      `json:"streams"`
 	Links   map[string]string `json:"_links"`
 }
 
-// GetStream -
+// GetStream - returns the streams matching the input parameters
 func (session *Session) GetStream(getStreamsInputType *GetStreamsInputType) (*GetStreamsOutputType, error) {
 	var out GetStreamsOutputType
 	err := session.request("GET", "/streams", &getStreamsInputType, &out)
@@ -61,18 +61,18 @@ func (session *Session) GetStream(getStreamsInputType *GetStreamsInputType) (*Ge
 	return &out, nil
 }
 
-// GetStreamByChannelInputType -
+// GetStreamByChannelInputType - specifies the channel for the GetStreamByChannel function
 type GetStreamByChannelInputType struct {
 	Channel string `url:"channel"`
 }
 
-// GetStreamByChannelOutputType -
+// GetStreamByChannelOutputType - response for the GetStreamByChannel function
 type GetStreamByChannelOutputType struct {
 	Stream StreamType        `json:"stream"`
 	Links  map[string]string `json:"_links"`
 }
 
-// GetStreamByChannel -
+// GetStreamByChannel - returns the current stream for a channel
 func (session *Session) GetStreamByChannel(getStreamByChannelInputType *GetStreamByChannelInputType) (*GetStreamByChannelOutputType, error) {
 	var out GetStreamByChannelOutputType
 	err := session.request("GET", "/streams/"+getStreamByChannelInputType.Channel, nil, &out)
@@ -82,19 +82,19 @@ func (session *Session) GetStreamByChannel(getStreamByChannelInputType *GetStrea
 	return &out, nil
 }
 
-// GetFeaturedStreamsInputType -
+// GetFeaturedStreamsInputType - input parameters for the GetFeaturedStreams function
 type GetFeaturedStreamsInputType struct {
 	Limit  int `url:"limit,omitempty"`
 	Offset int `url:"offset,omitempty"`
 }
 
-// GetFeaturedStreamsOutputType -
+// GetFeaturedStreamsOutputType - contains a list of featured streams
 type GetFeaturedStreamsOutputType struct {
 	Featured []FeaturedType    `json:"featured"`
 	Links    map[string]string `json:"_links"`
 }
 
-// GetFeaturedStreams -
+// GetFeaturedStreams - returns the featured streams
 func (session *Session) GetFeaturedStreams(getFeaturedStreamsInputType *GetFeaturedStreamsInputType) (*GetFeaturedStreamsOutputType, error) {
 	var out GetFeaturedStreamsOutputType
 	err := session.request("GET", "/streams/featured", &getFeaturedStreamsInputType, &out)
@@ -104,19 +104,19 @@ func (session *Session) GetFeaturedStreams(getFeaturedStreamsInputType *GetFeatu
 	return &out, nil
 }
 
-// GetStreamsSummaryInputType -
+// GetStreamsSummaryInputType - contains the game to scope the query to
 type GetStreamsSummaryInputType struct {
 	Game string `url:"game,omitempty"`
 }
 
-// GetStreamsSummaryOutputType -
+// GetStreamsSummaryOutputType - response object describing the summary of a game
 type GetStreamsSummaryOutputType struct {
 	Viewers  int               `json:"viewers"`
 	Links    map[string]string `json:"_links"`
 	Channels int               `json:"channels"`
 }
 
-// GetStreamsSummary -
+// GetStreamsSummary - returns the summary of a game on twitch
 func (session *Session) GetStreamsSummary(getStreamsSummaryInputType *GetStreamsSummaryInputType) (*GetStreamsSummaryOutputType, error) {
 	var out GetStreamsSummaryOutputType
 	err := session.request("GET", "/streams/summary", &getStreamsSummaryInputType, &out)

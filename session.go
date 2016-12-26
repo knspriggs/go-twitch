@@ -11,7 +11,7 @@ import (
 	"github.com/google/go-querystring/query"
 )
 
-// NewSessionInput is the input struct for creating a new session
+// NewSessionInput - input struct for creating a new session
 type NewSessionInput struct {
 	URL           *url.URL
 	VersionHeader string
