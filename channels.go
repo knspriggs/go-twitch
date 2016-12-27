@@ -1,6 +1,6 @@
 package twitch
 
-// ChannelType -
+// ChannelType - describes a channel on twitch
 type ChannelType struct {
 	Mature                       bool              `json:"mature"`
 	Status                       string            `json:"status"`
