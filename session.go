@@ -43,7 +43,7 @@ func NewSession(input NewSessionInput) (*Session, error) {
 	}
 
 	if input.VersionHeader == "" {
-		input.VersionHeader = APIV3Header
+		input.VersionHeader = APIV5Header
 	}
 
 	return &Session{
@@ -60,7 +60,7 @@ func (session *Session) request(method string, url string, q interface{}, r inte
 	if requestError != nil {
 		return requestError
 	}
-	request.Header.Add("Accept", APIV3Header)
+	request.Header.Add("Accept", session.VersionHeader)
 	request.Header.Add("Client-ID", session.ClientID)
 
 	response, responseError := session.Client.Do(request)
