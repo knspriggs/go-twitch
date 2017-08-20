@@ -1,5 +1,9 @@
 package twitch
 
+import (
+	"strings"
+)
+
 //
 // Generic streams types
 //
@@ -15,8 +19,16 @@ type StreamType struct {
 	CreatedAt   string            `json:"created_at"`
 	ID          int               `json:"_id"`
 	Channel     ChannelType       `json:"channel"`
-	Preview     map[string]string `json:"preview"`
+	Preview     Preview           `json:"preview"`
 	Links       map[string]string `json:"_links"`
+}
+
+// Preview - describes a preview
+type Preview struct {
+	Small    string `json:"small"`
+	Medium   string `json:"medium"`
+	Large    string `json:"large"`
+	Template string `json:"template"`
 }
 
 // FeaturedType - describes the relationship a stream has if it is featured
@@ -124,4 +136,10 @@ func (session *Session) GetStreamsSummary(getStreamsSummaryInputType *GetStreams
 		return nil, err
 	}
 	return &out, nil
+}
+
+func (preview *Preview) GetTemplatePreview(width, height string) string {
+	r := strings.NewReplacer("{width}", width, "{height}", height)
+
+	return r.Replace(preview.Template)
 }
