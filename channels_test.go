@@ -33,7 +33,5 @@ func TestGetChannelTeams(t *testing.T) {
 	session, err := twitch.NewSession(twitch.NewSessionInput{ClientID: clientID})
 	resp, err := session.GetChannelTeams(req)
 	assert.Nil(t, err)
-	if assert.NotNil(t, resp) {
-		assert.NotEqual(t, len(resp.Teams), 0)
-	}
+	assert.NotNil(t, resp)
 }
