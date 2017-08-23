@@ -5,6 +5,9 @@ import "net/url"
 const (
 	// APIV3Header - default v3 api header
 	APIV3Header = "application/vnd.twitchtv.v3+json"
+
+	// APIV5Header - default v5 api header
+	APIV5Header = "application/vnd.twitchtv.v5+json"
 )
 
 var (
